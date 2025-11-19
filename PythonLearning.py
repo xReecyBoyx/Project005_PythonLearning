@@ -545,6 +545,34 @@ print(f"4^6 = {CustomPower(4, 6)}")
 print(" ")
 
 
+print("NESTED LOOP")
+print("----------")
+print("You can nest loops.")
+print(" ")
+
+nestedList = [
+    [3, 7, 13],
+    [12, 16, 1],
+    [23, 4, 77],
+    [12, 13, 11]
+]
+
+print(f"My nested list as follows: {nestedList}")
+print("Attempting to sum through the nested list.")
+curSum = 0
+rowIndex = 0
+for i in nestedList :  
+    rowIndex += 1  
+    colIndex = 0
+    for j in i :   
+        colIndex += 1
+        print(f"Summing at row {rowIndex}, col {colIndex}.")
+        curSum += j
+        print(f"Cumulative Sum: {curSum}")
+
+print(f"The final sum is: {curSum}")
+print(" ")
+
 
 
 
