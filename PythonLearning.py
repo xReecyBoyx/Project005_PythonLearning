@@ -304,6 +304,9 @@ print(f"{firstNumber} / {secondNumber} = {Divide(firstNumber, secondNumber)}")
 print(f"{firstNumber} squared = {Square(firstNumber)}")
 print(" ")
 
+# IF ELIF ELSE
+print("BASIC IF ELSE")
+print("---------------")
 threshold = 10
 def checkThreshold(number): 
     if (number <= threshold and number >= 0) :
@@ -336,6 +339,59 @@ print(f"The first number is {number1}, is it even? {str(isEven(number1)).upper()
 print(f"The second number is {number2}, is it even? {str(isEven(number2)).upper()}")
 print(f"The third number is {number3}, is it even? {str(isEven(number3)).upper()}")
 print(" ")
+
+# DICTIONARIES
+print("DICTIONARIES")
+print("------------")
+NewPerson = {
+    "firstName": "Reece",
+    "surname": "Hillier",
+    "dob": "19/09/1993",
+    "gender": "Male",
+    "age": 32,
+    "mainCharacter": "Bangalore",
+    "favColor": "Teal",
+}
+
+OtherPerson = {
+    "firstName": "Amy",
+    "surname": "Welling",
+    "dob": "11/02/1994",
+    "gender": "Female",
+    "age": 31,
+    "mainCharacter": "Horizon",
+    "favColor": "purple",
+}
+
+def WriteStory(person):
+    print(f"There once was a person named {person["firstName"]} {person["surname"]}.")
+    print(f"This person was born on {person["dob"]}, they are {person["age"]} years old.")
+    print(f"They are the gender of: {person["gender"]}.")
+    print(f"Their ain Apex Legends character is {person["mainCharacter"]}.")
+    print(f"Their favourite color is {person["favColor"]}.")
+
+print("Writing a story for a person.")
+print("-----------------------------")
+WriteStory(NewPerson)
+print(" ")
+WriteStory(OtherPerson)
+print(" ")
+
+print("You can safely attempt to retrieve keys fro dictionary")
+print(f"The person favourite food is: {NewPerson.get("favFood", "This person has no food preference.")}")
+print(" ")
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
