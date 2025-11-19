@@ -343,6 +343,7 @@ print(" ")
 # DICTIONARIES
 print("DICTIONARIES")
 print("------------")
+print(" ")
 NewPerson = {
     "firstName": "Reece",
     "surname": "Hillier",
@@ -377,9 +378,175 @@ print(" ")
 WriteStory(OtherPerson)
 print(" ")
 
-print("You can safely attempt to retrieve keys fro dictionary")
+print("You can safely attempt to retrieve keys from a dictionary")
 print(f"The person favourite food is: {NewPerson.get("favFood", "This person has no food preference.")}")
 print(" ")
+
+# LOOPS
+print("LOOPS")
+print("-----")
+print("Loops are extremely useful for looping collections or performing repetetive tasks.")
+print(" ")
+
+print("WHILE LOOP")
+print("----------")
+print("While loops iterate while a condition is met.")
+print("You must be careful with while loops to not implement an infinite loop.")
+print(" ")
+
+print("Implementing a basic while loop from 1 to 10")
+i = 1
+while i <= 10 :
+    print(f"i: {i}")
+    i += 1
+
+def LoopWhile(startNumb, endNumb, increment):
+    if (startNumb > endNumb) :
+        print("Your start number is greater than your end number")
+        return
+    
+    print(f"Looping between {startNumb} and {endNumb} on an increment of {increment}.")
+    i = startNumb
+    while (i <= endNumb) :
+        print(f"i: {i}")
+        i += increment
+    
+
+print(" ")
+LoopWhile(1, 20, 1)
+print(" ")
+LoopWhile(20, 1, 1)
+print(" ")
+LoopWhile(100, 1000, 26)
+print(" ")
+
+def RollToSix(maxAttempts) : 
+    print("Beginning to roll untill retrieving a 6.")
+    diceRolls = 0
+    rolledYet = False   
+    while(not rolledYet) :
+        
+        numberRolled = random.randint(1, 6)
+        diceRolls += 1
+
+        if (diceRolls > maxAttempts) :
+            print(f"You didn't manage to roll a 6 in {maxAttempts} attempts.")
+            return None
+              
+        if (numberRolled == 6) :
+            print(f"You rolled a 6 after {diceRolls} attempts")
+            rolledYet = True
+            return diceRolls
+        
+print("Rolling to 6 function")
+print("---------------------")
+RollToSix(10)
+print(" ")
+RollToSix(100)
+print(" ")
+RollToSix(1000)
+print(" ")
+
+print("FOR LOOP")
+print("----------")
+print("For loops in python are used to traverse collections and lists.")
+print(" ")
+
+def getPerson(name, age, gender) :
+    return {
+        "name": name,
+        "age": age,
+        "gender": gender
+    }
+
+personOne = getPerson("Reece Hillier", 32, "Male")
+personTwo = getPerson("James Hendricks", 29, "Male")
+personThree = getPerson("Hailey Cummings", 41, "Female")
+
+personCollection = [personOne, personTwo, personThree]
+print("I have a collection of people.")
+
+def PrintPeoplesNames(personCollection) :
+    i = 0
+    for person in personCollection :
+        i += 1
+        print(f"Person {i}'s name is: {person["name"]}")
+
+def PrintSpecificGender(personCollection, gender):
+    print(f"Printing names for the gender: {gender}.")
+    i = 0
+    for person in personCollection :
+        if (person["gender"] == gender) :
+            i += 1
+            print(f"Person {i}'s name is {person["name"]}, their age is {person["age"]}.")
+    
+PrintPeoplesNames(personCollection)
+print(" ")
+PrintSpecificGender(personCollection, "Male")
+print(" ")
+PrintSpecificGender(personCollection, "Female")
+print(" ")
+
+print("You can loop through characters in a string.")
+for letter in "Reece Hillier":
+    print(letter)
+
+print(" ")
+
+def FindCharacterIndexString(substring, string) :
+    print(f"Finding '{substring}' within '{string}'.")
+    
+    subLength = len(substring)
+    mainLength = len(string)
+    currentLetter = 0
+
+    for letter in string :
+        if ((currentLetter + subLength) > mainLength) :
+            print("Could not find the substring within the string.")
+            return None
+        
+        if (string[currentLetter:(currentLetter + subLength)] == substring) :
+            print(f"Found the substring at index: {currentLetter}")
+            return currentLetter
+        
+        currentLetter += 1
+
+print("Find a substring via a custom method.")
+FindCharacterIndexString("anga", "Bangalore")
+print(" ")
+FindCharacterIndexString("Salt", "Apatostatic")
+print(" ")
+
+print("You can swiftly loop through a range to perform a task.")
+for i in range(0, 10):
+    print(f"i: {i + 1}")
+print(" ")
+
+def CustomPower(base, power) :
+    print(f"Calculating {base}^{power}...")
+
+    if power < 0:
+        return 1 / CustomPower(base, -power)
+    elif power == 0:
+        return 1
+    else:
+        result = base
+        if power == 1:
+            return base
+
+        for i in range(1, power):
+            result = result * base
+        
+        return result
+
+print(f"3^3 = {CustomPower(3, 3)}")
+print(" ")
+print(f"4^6 = {CustomPower(4, 6)}")
+print(" ")
+
+
+
+
 
 
 
