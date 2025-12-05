@@ -1,6 +1,8 @@
 from datetime import datetime, date, time, timedelta
 import math
 import random
+import csv
+import enum
 
 # INTRO
 print("INTRODUCTION - HELLO WORLD")
@@ -544,7 +546,7 @@ print(" ")
 print(f"4^6 = {CustomPower(4, 6)}")
 print(" ")
 
-
+# NESTED LOOPS
 print("NESTED LOOP")
 print("----------")
 print("You can nest loops.")
@@ -572,6 +574,702 @@ for i in nestedList :
 
 print(f"The final sum is: {curSum}")
 print(" ")
+
+# TRY EXCEPT
+print("TRY EXCEPT")
+print("----------")
+print("You can try and execute something safely while falling back upon an error.")
+print(" ")
+
+def tryConvertInt(number) :
+    try :
+        newInt = int(number)
+        print(f"Successfully converted {number} to an integer, the result is {newInt}.")
+        return newInt
+    except:
+        print(f"Failed converting {number} to an integer.")
+        return None
+    
+tryConvertInt("THIS IS NOT A NUMBER")
+tryConvertInt("6")
+tryConvertInt(6.22)
+print(" ")
+
+# READ FILES
+print("READ FILES")
+print("----------")
+print("You can read and manipulate files via Python.")
+print(" ")
+
+fileName = "ApexLegendsData.csv"
+apexCsv = open(fileName, "r", encoding="utf-8-sig")
+
+print("Below is the first row of the read file.")
+print("----------------------------------------")
+print(f"Beginning to read {fileName}")
+print(f"Reading the first line of {fileName}")
+print(" ")
+firstRow = apexCsv.readline()
+print(firstRow)
+print(" ")
+
+print(f"Reading the second line of {fileName}")
+print(" ")
+secondRow = apexCsv.readline()
+print(secondRow)
+print(" ")
+
+apexCsv.close()
+
+print("You can read all lines at once from files also into an Array.")
+apexCsv = open(fileName, "r", encoding="utf-8-sig")
+apexLines = apexCsv.readlines()
+print("Reading the 1st and 22nd line from the Apex dataset.")
+print(" ")
+print(apexLines[0])
+print(" ")
+print(apexLines[21])
+print(" ")
+apexCsv.close()
+print("You can read Csvs aswell easily using built in packages.")
+print(" ")
+
+def ReadApexData(fileName, numberRecs): 
+    apexCsv = open(fileName, "r", encoding="utf-8-sig")
+    reader = csv.reader(apexCsv)
+    apexData = []
+    rowCount = 0
+
+    lateAdditions = {
+        "hotZone": False,
+        "jumpmaster": False
+    }
+
+    try :
+        for i, row in enumerate(reader):
+            if (numberRecs != None and i > (numberRecs + 1)):
+                break
+
+            if (i > 1) :
+                apexGame = ReadApexRow(row, lateAdditions)
+                apexData.append(apexGame)
+                rowCount += 1
+    except Exception as e:
+        print(f"There was an error retrieving the data: {e}")
+        return apexData
+    
+    print(f"Sucessfully retrieved {rowCount} records from the Apex Dataset")
+    apexCsv.close()
+    return apexData
+
+def GetCharacterDetail(characterName) :
+    
+    lowerName = characterName.lower()
+    if (lowerName == "bangalore") :
+        return {
+            "SeasonReleased": 0,
+            "LegendClass": "Assault",
+            "HasCoverGen": True,
+            "HasDamageDeal": True,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "bloodhound") :
+        return {
+            "SeasonReleased": 0,
+            "LegendClass": "Recon",
+            "HasCoverGen": False,
+            "HasDamageDeal": False,
+            "HasFortify": False,
+            "HasScan": True,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "caustic") :
+        return {
+            "SeasonReleased": 0,
+            "LegendClass": "Controller",
+            "HasCoverGen": False,
+            "HasDamageDeal": True,
+            "HasFortify": True,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "gibraltar") :
+        return {
+            "SeasonReleased": 0,
+            "LegendClass": "Support",
+            "HasCoverGen": True,
+            "HasDamageDeal": True,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": True,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "lifeline") :
+        return {
+            "SeasonReleased": 0,
+            "LegendClass": "Support",
+            "HasCoverGen": False,
+            "HasDamageDeal": False,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": True,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "mirage") :
+        return {
+            "SeasonReleased": 0,
+            "LegendClass": "Support",
+            "HasCoverGen": False,
+            "HasDamageDeal": False,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": True,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "pathfinder") :
+        return {
+            "SeasonReleased": 0,
+            "LegendClass": "Skirmisher",
+            "HasCoverGen": False,
+            "HasDamageDeal": False,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": True,
+            "HasTeamMovement": True
+        }
+    elif (lowerName == "wraith") :
+        return {
+            "SeasonReleased": 0,
+            "LegendClass": "Skirmisher",
+            "HasCoverGen": False,
+            "HasDamageDeal": False,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "octane") :
+        return {
+            "SeasonReleased": 1,
+            "LegendClass": "Skirmisher",
+            "HasCoverGen": False,
+            "HasDamageDeal": False,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": True,
+            "HasTeamMovement": True
+        }
+    elif (lowerName == "wattson") :
+        return {
+            "SeasonReleased": 2,
+            "LegendClass": "Controller",
+            "HasCoverGen": False,
+            "HasDamageDeal": False,
+            "HasFortify": True,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "crypto") :
+        return {
+            "SeasonReleased": 3,
+            "LegendClass": "Recon",
+            "HasCoverGen": False,
+            "HasDamageDeal": False,
+            "HasFortify": False,
+            "HasScan": True,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "revenant") :
+        return {
+            "SeasonReleased": 4,
+            "LegendClass": "Skirmisher",
+            "HasCoverGen": False,
+            "HasDamageDeal": True,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": True,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "loba") :
+        return {
+            "SeasonReleased": 5,
+            "LegendClass": "Support",
+            "HasCoverGen": False,
+            "HasDamageDeal": False,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": True,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "rampart") :
+        return {
+            "SeasonReleased": 6,
+            "LegendClass": "Controller",
+            "HasCoverGen": True,
+            "HasDamageDeal": True,
+            "HasFortify": True,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "horizon") :
+        return {
+            "SeasonReleased": 7,
+            "LegendClass": "Skirmisher",
+            "HasCoverGen": False,
+            "HasDamageDeal": True,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": True,
+            "HasTeamMovement": True
+        }
+    elif (lowerName == "fuse") :
+        return {
+            "SeasonReleased": 8,
+            "LegendClass": "Assault",
+            "HasCoverGen": False,
+            "HasDamageDeal": True,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "valkyrie") :
+        return {
+            "SeasonReleased": 9,
+            "LegendClass": "Skirmisher",
+            "HasCoverGen": False,
+            "HasDamageDeal": True,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": True,
+            "HasTeamMovement": True
+        }
+    elif (lowerName == "seer") :
+        return {
+            "SeasonReleased": 10,
+            "LegendClass": "Recon",
+            "HasCoverGen": False,
+            "HasDamageDeal": False,
+            "HasFortify": False,
+            "HasScan": True,
+            "HasRevive": False,
+            "HasMovement": True,
+            "HasTeamMovement": True
+        }
+    elif (lowerName == "ash") :
+        return {
+            "SeasonReleased": 11,
+            "LegendClass": "Assault",
+            "HasCoverGen": False,
+            "HasDamageDeal": True,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": True,
+            "HasTeamMovement": True
+        }
+    elif (lowerName == "maggie") :
+        return {
+            "SeasonReleased": 12,
+            "LegendClass": "Assault",
+            "HasCoverGen": False,
+            "HasDamageDeal": True,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "newcastle") :
+        return {
+            "SeasonReleased": 13,
+            "LegendClass": "Support",
+            "HasCoverGen": True,
+            "HasDamageDeal": False,
+            "HasFortify": True,
+            "HasScan": False,
+            "HasRevive": True,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "vantage") :
+        return {
+            "SeasonReleased": 14,
+            "LegendClass": "Recon",
+            "HasCoverGen": False,
+            "HasDamageDeal": False,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": True,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "catalyst") :
+        return {
+            "SeasonReleased": 15,
+            "LegendClass": "Controller",
+            "HasCoverGen": True,
+            "HasDamageDeal": False,
+            "HasFortify": True,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "ballistic") :
+        return {
+            "SeasonReleased": 17,
+            "LegendClass": "Assault",
+            "HasCoverGen": False,
+            "HasDamageDeal": True,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "conduit") :
+        return {
+            "SeasonReleased": 19,
+            "LegendClass": "Support",
+            "HasCoverGen": True,
+            "HasDamageDeal": False,
+            "HasFortify": False,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    elif (lowerName == "alter") :
+        return {
+            "SeasonReleased": 15,
+            "LegendClass": "Controller",
+            "HasCoverGen": True,
+            "HasDamageDeal": False,
+            "HasFortify": True,
+            "HasScan": False,
+            "HasRevive": False,
+            "HasMovement": False,
+            "HasTeamMovement": False
+        }
+    else :
+        return None
+    
+
+
+def ReadApexRow(apexRow, lateAdditions) :
+
+    apexGame = []
+
+    gameId = str(apexRow[0])
+    gameNumber = int(apexRow[1])
+    datePlayed = datetime.strptime(apexRow[2], "%m/%d/%Y").date()
+    timePlayed = datetime.strptime(apexRow[3], "%H:%M").time()
+    dateTimePlayed = datetime.combine(datePlayed, timePlayed)
+    season = safeInt(apexRow[4])
+    gameType = str(apexRow[5])
+    map = str(apexRow[6])
+    landingSite = str(apexRow[7])
+    deathSite = str(apexRow[8])
+    hotZoneOriginal = safeInt(apexRow[9])
+    
+    hotZone = "Pre-Collection"
+    if (lateAdditions.get("hotZone") == True) :
+        hotZone = "Landed Hot" if hotZoneOriginal == 1 else "Landed Cold"
+        
+    else :
+        if (hotZoneOriginal != None) :
+            lateAdditions["hotZone"] = True
+
+    legendSelected = str(apexRow[10])
+    legendSelectionNumber = safeInt(apexRow[11])
+    secondLegendSelected = str(apexRow[12])
+    thirdLegendSelected = str(apexRow[13])
+
+    legendDict = GetCharacterDetail(legendSelected)
+    secondLegendDict = GetCharacterDetail(secondLegendSelected)
+    thirdLegendDict = GetCharacterDetail(thirdLegendSelected)
+
+    legendSelectedClass = RetrievNullableKey(legendDict, "LegendClass")
+    secondLegendClass = RetrievNullableKey(secondLegendDict, "LegendClass")
+    thirdLegendClass = RetrievNullableKey(thirdLegendDict, "LegendClass")
+    legendSeasonReleased = safeInt(RetrievNullableKey(legendDict, "SeasonReleased"))
+    secondLegendSeasonReleased = safeInt(RetrievNullableKey(secondLegendDict, "SeasonReleased"))
+    thirdLegendSeasonReleased = safeInt(RetrievNullableKey(thirdLegendDict, "SeasonReleased"))
+    legendCoverGen = RetrievNullableKey(legendDict, "HasCoverGen")
+    secondLegendCoverGen = RetrievNullableKey(secondLegendDict, "HasCoverGen")
+    thirdLegendCoverGen = RetrievNullableKey(thirdLegendDict, "HasCoverGen")
+    legendDamageDeal = RetrievNullableKey(legendDict, "HasDamageDeal")
+    secondLegendDamageDeal = RetrievNullableKey(secondLegendDict, "HasDamageDeal")
+    thirdLegendDamageDeal = RetrievNullableKey(thirdLegendDict, "HasDamageDeal")
+    legendFortify = RetrievNullableKey(legendDict, "HasFortify")
+    secondLegendFortify= RetrievNullableKey(secondLegendDict, "HasFortify")
+    thirdLegendFortify= RetrievNullableKey(thirdLegendDict, "HasFortify")
+    legendScan = RetrievNullableKey(legendDict, "HasScan")
+    secondLegendScan = RetrievNullableKey(secondLegendDict, "HasScan")
+    thirdLegendScan = RetrievNullableKey(thirdLegendDict, "HasScan")
+    legendRevive = RetrievNullableKey(legendDict, "HasRevive")
+    secondLegendRevive = RetrievNullableKey(secondLegendDict, "HasRevive")
+    thirdLegendRevive = RetrievNullableKey(thirdLegendDict, "HasRevive")
+    legendMovement = RetrievNullableKey(legendDict, "HasMovement")
+    secondLegendMovement = RetrievNullableKey(secondLegendDict, "HasMovement")
+    thirdLegendMovement = RetrievNullableKey(thirdLegendDict, "HasMovement")
+    legendTeamMovement = RetrievNullableKey(legendDict, "HasTeamMovement")
+    secondLegendTeamMovement = RetrievNullableKey(secondLegendDict, "HasTeamMovement")
+    thirdLegendTeamMovement = RetrievNullableKey(thirdLegendDict, "HasTeamMovement")
+
+    legendJumpmaster = safeInt(apexRow[15])
+    jumpmaster = "Pre-Collection"
+    if (lateAdditions.get("jumpmaster") == True) :
+        if (legendJumpmaster == 1) :
+            jumpmaster = "Jumpmaster"
+        elif (legendJumpmaster > 1) :
+            jumpmaster = "Squadmate JM"
+        else :
+            jumpmaster = "Unknown"
+    
+    else :
+        if (legendJumpmaster != None) :
+            lateAdditions["jumpmaster"] = True
+    
+    damageDealt = safeInt(apexRow[16])
+    teammate1DamageDealt = safeInt(apexRow[17])
+    teammate2DamageDealt = safeInt(apexRow[18])
+
+    myRankDetail = GetRankDetail(apexRow[19], gameType)
+    teammate1RankDetail = GetRankDetail(apexRow[20], gameType)
+    teammate2RankDetail = GetRankDetail(apexRow[21], gameType)
+
+    myRank = RetrievNullableKey(myRankDetail, "rank")
+    teammate1Rank = RetrievNullableKey(teammate1RankDetail, "rank")
+    teammate2Rank = RetrievNullableKey(teammate2RankDetail, "rank")
+
+    myRankLevel = RetrievNullableKey(myRankDetail, "rankLevel")
+    teammate1RankLevel = RetrievNullableKey(teammate1RankDetail, "rankLevel")
+    teammate2RankLevel = RetrievNullableKey(teammate2RankDetail, "rankLevel")
+
+    myRankBroad = RetrievNullableKey(myRankDetail, "rankBroad")
+    teammate1RankBroad = RetrievNullableKey(teammate1RankDetail, "rankBroad")
+    teammate2RankBroad = RetrievNullableKey(teammate2RankDetail, "rankBroad")
+
+    apexGame.append(gameId)
+    apexGame.append(gameNumber)
+    apexGame.append(datePlayed)
+    apexGame.append(timePlayed)
+    apexGame.append(dateTimePlayed)
+    apexGame.append(season)
+    apexGame.append(gameType)
+    apexGame.append(map)
+    apexGame.append(landingSite)
+    apexGame.append(deathSite)
+    apexGame.append(hotZoneOriginal)
+    apexGame.append(hotZone)
+    apexGame.append(legendSelected)
+    apexGame.append(legendSelectionNumber)
+    apexGame.append(secondLegendSelected)
+    apexGame.append(thirdLegendSelected)
+    apexGame.append(legendSelectedClass)
+    apexGame.append(secondLegendClass)
+    apexGame.append(thirdLegendClass)
+    apexGame.append(legendSeasonReleased)
+    apexGame.append(secondLegendSeasonReleased)
+    apexGame.append(thirdLegendSeasonReleased)
+    apexGame.append(legendCoverGen)
+    apexGame.append(secondLegendCoverGen)
+    apexGame.append(thirdLegendCoverGen)
+    apexGame.append(legendFortify)
+    apexGame.append(secondLegendFortify)
+    apexGame.append(thirdLegendFortify)
+    apexGame.append(legendDamageDeal)
+    apexGame.append(secondLegendDamageDeal)
+    apexGame.append(thirdLegendDamageDeal)
+    apexGame.append(legendRevive)
+    apexGame.append(secondLegendRevive)
+    apexGame.append(thirdLegendRevive)
+    apexGame.append(legendScan)
+    apexGame.append(secondLegendScan)
+    apexGame.append(thirdLegendScan)
+    apexGame.append(legendMovement)
+    apexGame.append(secondLegendMovement)
+    apexGame.append(thirdLegendMovement)
+    apexGame.append(legendTeamMovement)
+    apexGame.append(secondLegendTeamMovement)
+    apexGame.append(thirdLegendTeamMovement)
+    apexGame.append(legendJumpmaster)
+    apexGame.append(jumpmaster)
+    apexGame.append(damageDealt)
+    apexGame.append(teammate1DamageDealt)
+    apexGame.append(teammate2DamageDealt)
+    apexGame.append(myRank)
+    apexGame.append(teammate1Rank)
+    apexGame.append(teammate2Rank)
+    apexGame.append(myRankLevel)
+    apexGame.append(teammate1RankLevel)
+    apexGame.append(teammate2RankLevel)
+    apexGame.append(myRankBroad)
+    apexGame.append(teammate1RankBroad)
+    apexGame.append(teammate2RankBroad)
+
+    return apexGame
+
+    
+def safeInt(string) :
+    try :
+        return int(string)
+    except: 
+        return None
+    
+def RetrievNullableKey(dict, key) :
+    if (dict == None) :
+        return None
+    else :
+        return dict.get(key)
+
+
+def GetRankDetail(rank, gameType):
+
+    gameTypeLower = gameType.lower()
+    if (gameTypeLower != "ranked") :
+        return None
+
+    if (rank == None) :
+        return GetRankDictionary("Unknown", None, "Unknown")
+    
+    rankLower = str(rank).lower()
+    rankClean = FirstLetterUpper(rank)
+
+    if (rankLower == '' or
+        rankLower == 'unknown') :
+        return GetRankDictionary("Unknown", None, "Unknown")
+    
+    elif (rankLower == 'master') :
+        return GetRankDictionary(rankClean, 26, "Master")
+    
+    elif (rankLower == 'predator') :
+        return GetRankDictionary(rankClean, 27, "Predator")
+    
+    else :
+        rankSpace = rank.find(" ")
+        if (rankSpace == -1) :
+            return GetRankDictionary("Unknown", None, "Unknown")
+        
+        rankBroad = rankClean[0:rankSpace]
+        nestedRankLevel = safeInt(rankClean[(rankSpace + 1): len(rankClean)])
+        if (nestedRankLevel == None) :
+            return GetRankDictionary("Unknown", None, "Unknown")
+        
+        if (rankBroad == "Plat") :
+            rankBaseline = GetRankBaseline("Platinum")
+            rankLevel = rankBaseline + nestedRankLevel
+            return GetRankDictionary(rankClean, rankLevel, "Platinum")
+        
+        else :
+            rankBaseline = GetRankBaseline(rankBroad)
+            rankLevel = rankBaseline + nestedRankLevel
+            return GetRankDictionary(rankClean, rankLevel, rankBroad)
+
+         
+def GetRankDictionary(rankName, rankLevel, rankBroadName) :
+
+    if (rankName == None or
+        rankName == '' or
+        rankBroadName == None or 
+        rankBroadName == '') :    
+        return None
+
+    return {
+        "rank": rankName,
+        "rankLevel": rankLevel,
+        "rankBroad": rankBroadName,
+    }
+
+def GetRankBaseline(rankBroad) :
+    
+    if (rankBroad == None or 
+        rankBroad == '') :   
+        return None
+
+    rankBroadLower = rankBroad.lower()
+    if (rankBroadLower == 'unknown') :
+        return None
+    
+    if (rankBroadLower == 'rookie') :
+        return 1
+    elif (rankBroadLower == 'bronze') :
+        return 5
+    elif (rankBroadLower == 'silver') :
+        return 9
+    elif (rankBroadLower == 'gold') :
+        return 13
+    elif (rankBroadLower == 'platinum') :
+        return 17
+    elif (rankBroadLower == 'diamond') :
+        return 21
+    elif (rankBroadLower == 'master' or rankBroadLower == 'predator') :
+        return 25
+    else :
+        return None
+
+
+def FirstLetterUpper(string):
+    newString = ''
+    charNumb = 0
+    for char in string :
+        curChar = char
+        if (charNumb == 0) :
+            curChar = char.upper()
+        else :
+            curChar = char.lower()
+        
+        charNumb += 1
+        newString += curChar
+    
+    return newString
+
+
+##def BuildRankBroadDictionary(rankName, rankBaseline) :
+    
+
+apexData = ReadApexData("ApexLegendsData.csv", 6000)
+print(" ")
+print(apexData[5000])
+
+"""
+apexCsv = open(fileName, "r", encoding="utf-8-sig")
+reader = csv.reader(apexCsv)
+for i, row in enumerate(reader):
+    if (i > 10) :
+        break
+    print(row)
+"""
+
+
+
 
 
 
