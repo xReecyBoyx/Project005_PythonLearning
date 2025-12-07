@@ -1,0 +1,449 @@
+Season,Weapon,Category,Ammo
+7,RE-45,Pistol,Light
+7,P220,Pistol,Light
+7,Wingman,Pistol,Heavy
+7,Alternator,SMG,Light
+7,Prowler,SMG,Care
+7,R-99,SMG,Light
+7,Volt,SMG,Energy
+7,30-30 Repeater,Assault Rifle,Heavy
+7,Havoc,Assault Rifle,Energy
+7,Flatline,Assault Rifle,Heavy
+7,G7-Scout,Assault Rifle,Light
+7,Hemlok,Assault Rifle,Heavy
+7,R301,Assault Rifle,Light
+7,Devotion,LMG,Energy
+7,L-Star,LMG,Energy
+7,Spitfire,LMG,Heavy
+7,Bocek,Sniper,Arrows
+7,Charge Rifle,Sniper,Sniper
+7,Longbow,Sniper,Sniper
+7,Kraber,Sniper,Care
+7,Sentinel,Sniper,Sniper
+7,Triple Take,Sniper,Sniper
+7,Eva-8,Shotgun,Shotgun
+7,Mastiff,Shotgun,Shotgun
+7,Mozambique,Shotgun,Shotgun
+7,Peacekeeper,Shotgun,Care
+8,RE-45,Pistol,Light
+8,P220,Pistol,Light
+8,Wingman,Pistol,Heavy
+8,Alternator,SMG,Light
+8,Prowler,SMG,Care
+8,R-99,SMG,Light
+8,Volt,SMG,Energy
+8,30-30 Repeater,Assault Rifle,Heavy
+8,Havoc,Assault Rifle,Energy
+8,Flatline,Assault Rifle,Heavy
+8,G7-Scout,Assault Rifle,Light
+8,Hemlok,Assault Rifle,Heavy
+8,R301,Assault Rifle,Light
+8,Devotion,LMG,Energy
+8,L-Star,LMG,Energy
+8,Spitfire,LMG,Heavy
+8,Bocek,Sniper,Arrows
+8,Charge Rifle,Sniper,Sniper
+8,Longbow,Sniper,Sniper
+8,Kraber,Sniper,Care
+8,Sentinel,Sniper,Sniper
+8,Triple Take,Sniper,Sniper
+8,Eva-8,Shotgun,Shotgun
+8,Mastiff,Shotgun,Shotgun
+8,Mozambique,Shotgun,Shotgun
+8,Peacekeeper,Shotgun,Care
+9,RE-45,Pistol,Light
+9,P220,Pistol,Light
+9,Wingman,Pistol,Heavy
+9,Alternator,SMG,Light
+9,Prowler,SMG,Care
+9,R-99,SMG,Light
+9,Volt,SMG,Energy
+9,30-30 Repeater,Marksman,Heavy
+9,Havoc,Assault Rifle,Energy
+9,Flatline,Assault Rifle,Heavy
+9,G7-Scout,Marksman,Light
+9,Hemlok,Assault Rifle,Heavy
+9,R301,Assault Rifle,Light
+9,Devotion,LMG,Energy
+9,L-Star,LMG,Energy
+9,Spitfire,LMG,Heavy
+9,Bocek,Marksman,Arrows
+9,Charge Rifle,Sniper,Sniper
+9,Longbow,Sniper,Sniper
+9,Kraber,Sniper,Care
+9,Sentinel,Sniper,Sniper
+9,Triple Take,Marksman,Care
+9,Eva-8,Shotgun,Shotgun
+9,Mastiff,Shotgun,Shotgun
+9,Mozambique,Shotgun,Shotgun
+9,Peacekeeper,Shotgun,Shotgun
+10,RE-45,Pistol,Light
+10,P220,Pistol,Light
+10,Wingman,Pistol,Heavy
+10,Alternator,SMG,Care
+10,Prowler,SMG,Heavy
+10,R-99,SMG,Light
+10,Volt,SMG,Energy
+10,30-30 Repeater,Marksman,Heavy
+10,Havoc,Assault Rifle,Energy
+10,Flatline,Assault Rifle,Heavy
+10,G7-Scout,Marksman,Light
+10,Hemlok,Assault Rifle,Heavy
+10,R301,Assault Rifle,Light
+10,Devotion,LMG,Energy
+10,L-Star,LMG,Energy
+10,Rampage,LMG,Heavy
+10,Spitfire,LMG,Care
+10,Bocek,Marksman,Arrows
+10,Charge Rifle,Sniper,Sniper
+10,Longbow,Sniper,Sniper
+10,Kraber,Sniper,Care
+10,Sentinel,Sniper,Sniper
+10,Triple Take,Marksman,Care
+10,Eva-8,Shotgun,Shotgun
+10,Mastiff,Shotgun,Shotgun
+10,Mozambique,Shotgun,Shotgun
+10,Peacekeeper,Shotgun,Shotgun
+11,RE-45,Pistol,Light
+11,P220,Pistol,Light
+11,Wingman,Pistol,Heavy
+11,Alternator,SMG,Care
+11,Car,SMG,Heavy
+11,Prowler,SMG,Heavy
+11,R-99,SMG,Light
+11,Volt,SMG,Energy
+11,30-30 Repeater,Marksman,Heavy
+11,Havoc,Assault Rifle,Energy
+11,Flatline,Assault Rifle,Heavy
+11,G7-Scout,Marksman,Care
+11,Hemlok,Assault Rifle,Heavy
+11,R301,Assault Rifle,Light
+11,Devotion,LMG,Energy
+11,L-Star,LMG,Energy
+11,Rampage,LMG,Heavy
+11,Spitfire,LMG,Care
+11,Bocek,Marksman,Arrows
+11,Charge Rifle,Sniper,Sniper
+11,Longbow,Sniper,Sniper
+11,Kraber,Sniper,Care
+11,Sentinel,Sniper,Sniper
+11,Triple Take,Marksman,Energy
+11,Eva-8,Shotgun,Shotgun
+11,Mastiff,Shotgun,Shotgun
+11,Mozambique,Shotgun,Shotgun
+11,Peacekeeper,Shotgun,Shotgun
+12,RE-45,Pistol,Light
+12,P220,Pistol,Light
+12,Wingman,Pistol,Heavy
+12,Alternator,SMG,Light
+12,Car,SMG,Heavy
+12,Prowler,SMG,Heavy
+12,R-99,SMG,Light
+12,Volt,SMG,Care
+12,30-30 Repeater,Marksman,Heavy
+12,Havoc,Assault Rifle,Energy
+12,Flatline,Assault Rifle,Heavy
+12,G7-Scout,Marksman,Care
+12,Hemlok,Assault Rifle,Heavy
+12,R301,Assault Rifle,Light
+12,Devotion,LMG,Energy
+12,L-Star,LMG,Energy
+12,Rampage,LMG,Heavy
+12,Spitfire,LMG,Care
+12,Bocek,Marksman,Arrows
+12,Charge Rifle,Sniper,Sniper
+12,Longbow,Sniper,Sniper
+12,Kraber,Sniper,Care
+12,Sentinel,Sniper,Sniper
+12,Triple Take,Marksman,Energy
+12,Eva-8,Shotgun,Shotgun
+12,Mastiff,Shotgun,Shotgun
+12,Mozambique,Shotgun,Shotgun
+12,Peacekeeper,Shotgun,Shotgun
+13,RE-45,Pistol,Light
+13,P220,Pistol,Light
+13,Wingman,Pistol,Heavy
+13,Alternator,SMG,Light
+13,Car,SMG,Heavy
+13,Prowler,SMG,Heavy
+13,R-99,SMG,Light
+13,Volt,SMG,Care
+13,30-30 Repeater,Marksman,Heavy
+13,Havoc,Assault Rifle,Energy
+13,Flatline,Assault Rifle,Heavy
+13,G7-Scout,Marksman,Care
+13,Hemlok,Assault Rifle,Heavy
+13,R301,Assault Rifle,Light
+13,Devotion,LMG,Energy
+13,L-Star,LMG,Energy
+13,Rampage,LMG,Heavy
+13,Spitfire,LMG,Heavy
+13,Bocek,Marksman,Arrows
+13,Charge Rifle,Sniper,Sniper
+13,Longbow,Sniper,Sniper
+13,Kraber,Sniper,Care
+13,Sentinel,Sniper,Sniper
+13,Triple Take,Marksman,Energy
+13,Eva-8,Shotgun,Shotgun
+13,Mastiff,Shotgun,Care
+13,Mozambique,Shotgun,Shotgun
+13,Peacekeeper,Shotgun,Shotgun
+14,RE-45,Pistol,Light
+14,P220,Pistol,Light
+14,Wingman,Pistol,Sniper
+14,Alternator,SMG,Light
+14,Car,SMG,Heavy
+14,Prowler,SMG,Heavy
+14,R-99,SMG,Light
+14,Volt,SMG,Energy
+14,30-30 Repeater,Marksman,Heavy
+14,Havoc,Assault Rifle,Energy
+14,Flatline,Assault Rifle,Heavy
+14,G7-Scout,Marksman,Light
+14,Hemlok,Assault Rifle,Heavy
+14,R301,Assault Rifle,Light
+14,Devotion,LMG,Energy
+14,L-Star,LMG,Energy
+14,Rampage,LMG,Care
+14,Spitfire,LMG,Light
+14,Bocek,Marksman,Care
+14,Charge Rifle,Sniper,Sniper
+14,Longbow,Sniper,Sniper
+14,Kraber,Sniper,Care
+14,Sentinel,Sniper,Sniper
+14,Triple Take,Marksman,Energy
+14,Eva-8,Shotgun,Shotgun
+14,Mastiff,Shotgun,Care
+14,Mozambique,Shotgun,Shotgun
+14,Peacekeeper,Shotgun,Shotgun
+15,RE-45,Pistol,Care
+15,P220,Pistol,Light
+15,Wingman,Pistol,Sniper
+15,Alternator,SMG,Light
+15,Car,SMG,Heavy
+15,Prowler,SMG,Heavy
+15,R-99,SMG,Light
+15,Volt,SMG,Energy
+15,30-30 Repeater,Marksman,Heavy
+15,Havoc,Assault Rifle,Energy
+15,Flatline,Assault Rifle,Heavy
+15,G7-Scout,Marksman,Light
+15,Hemlok,Assault Rifle,Heavy
+15,R301,Assault Rifle,Light
+15,Devotion,LMG,Energy
+15,L-Star,LMG,Energy
+15,Rampage,LMG,Care
+15,Spitfire,LMG,Light
+15,Bocek,Marksman,Care
+15,Charge Rifle,Sniper,Sniper
+15,Longbow,Sniper,Sniper
+15,Kraber,Sniper,Care
+15,Sentinel,Sniper,Sniper
+15,Triple Take,Marksman,Energy
+15,Eva-8,Shotgun,Shotgun
+15,Mastiff,Shotgun,Shotgun
+15,Mozambique,Shotgun,Shotgun
+15,Peacekeeper,Shotgun,Shotgun
+16,RE-45,Pistol,Care
+16,P220,Pistol,Light
+16,Wingman,Pistol,Sniper
+16,Alternator,SMG,Light
+16,Car,SMG,Heavy
+16,Prowler,SMG,Heavy
+16,R-99,SMG,Light
+16,Volt,SMG,Energy
+16,30-30 Repeater,Marksman,Heavy
+16,Havoc,Assault Rifle,Energy
+16,Flatline,Assault Rifle,Heavy
+16,G7-Scout,Marksman,Light
+16,Hemlok,Assault Rifle,Care
+16,Nemesis,Assault Rifle,Energy
+16,R301,Assault Rifle,Light
+16,Devotion,LMG,Energy
+16,L-Star,LMG,Energy
+16,Rampage,LMG,Heavy
+16,Spitfire,LMG,Light
+16,Bocek,Marksman,Care
+16,Charge Rifle,Sniper,Sniper
+16,Longbow,Sniper,Sniper
+16,Kraber,Sniper,Care
+16,Sentinel,Sniper,Sniper
+16,Triple Take,Marksman,Energy
+16,Eva-8,Shotgun,Shotgun
+16,Mastiff,Shotgun,Shotgun
+16,Mozambique,Shotgun,Shotgun
+16,Peacekeeper,Shotgun,Shotgun
+17,RE-45,Pistol,Light
+17,P220,Pistol,Light
+17,Wingman,Pistol,Sniper
+17,Alternator,SMG,Light
+17,Car,SMG,Heavy
+17,Prowler,SMG,Heavy
+17,R-99,SMG,Light
+17,Volt,SMG,Energy
+17,30-30 Repeater,Marksman,Heavy
+17,Havoc,Assault Rifle,Energy
+17,Flatline,Assault Rifle,Heavy
+17,G7-Scout,Marksman,Light
+17,Hemlok,Assault Rifle,Care
+17,Nemesis,Assault Rifle,Energy
+17,R301,Assault Rifle,Light
+17,Devotion,LMG,Energy
+17,L-Star,LMG,Care
+17,Rampage,LMG,Heavy
+17,Spitfire,LMG,Light
+17,Bocek,Marksman,Care
+17,Charge Rifle,Sniper,Sniper
+17,Longbow,Sniper,Sniper
+17,Kraber,Sniper,Care
+17,Sentinel,Sniper,Sniper
+17,Triple Take,Marksman,Energy
+17,Eva-8,Shotgun,Shotgun
+17,Mastiff,Shotgun,Shotgun
+17,Mozambique,Shotgun,Shotgun
+17,Peacekeeper,Shotgun,Shotgun
+18,RE-45,Pistol,Light
+18,P220,Pistol,Light
+18,Wingman,Pistol,Sniper
+18,Alternator,SMG,Light
+18,Car,SMG,Heavy
+18,Prowler,SMG,Care
+18,R-99,SMG,Light
+18,Volt,SMG,Energy
+18,30-30 Repeater,Marksman,Heavy
+18,Havoc,Assault Rifle,Energy
+18,Flatline,Assault Rifle,Heavy
+18,G7-Scout,Marksman,Light
+18,Hemlok,Assault Rifle,Heavy
+18,Nemesis,Assault Rifle,Energy
+18,R301,Assault Rifle,Light
+18,Devotion,LMG,Energy
+18,L-Star,LMG,Care
+18,Rampage,LMG,Heavy
+18,Spitfire,LMG,Light
+18,Bocek,Marksman,Care
+18,Charge Rifle,Sniper,Sniper
+18,Longbow,Sniper,Sniper
+18,Kraber,Sniper,Care
+18,Sentinel,Sniper,Sniper
+18,Triple Take,Marksman,Energy
+18,Eva-8,Shotgun,Shotgun
+18,Mastiff,Shotgun,Shotgun
+18,Mozambique,Shotgun,Shotgun
+18,Peacekeeper,Shotgun,Shotgun
+19,RE-45,Pistol,Light
+19,P220,Pistol,Light
+19,Wingman,Pistol,Care
+19,Alternator,SMG,Light
+19,Car,SMG,Heavy
+19,Prowler,SMG,Care
+19,R-99,SMG,Light
+19,Volt,SMG,Energy
+19,30-30 Repeater,Marksman,Heavy
+19,Havoc,Assault Rifle,Energy
+19,Flatline,Assault Rifle,Heavy
+19,G7-Scout,Marksman,Light
+19,Hemlok,Assault Rifle,Heavy
+19,Nemesis,Assault Rifle,Energy
+19,R301,Assault Rifle,Light
+19,Devotion,LMG,Energy
+19,L-Star,LMG,Energy
+19,Rampage,LMG,Heavy
+19,Spitfire,LMG,Light
+19,Bocek,Marksman,Care
+19,Charge Rifle,Sniper,Sniper
+19,Longbow,Sniper,Sniper
+19,Kraber,Sniper,Care
+19,Sentinel,Sniper,Sniper
+19,Triple Take,Marksman,Energy
+19,Eva-8,Shotgun,Shotgun
+19,Mastiff,Shotgun,Shotgun
+19,Mozambique,Shotgun,Shotgun
+19,Peacekeeper,Shotgun,Shotgun
+20,RE-45,Pistol,Light
+20,P220,Pistol,Light
+20,Wingman,Pistol,Care
+20,Alternator,SMG,Light
+20,Car,SMG,Heavy
+20,Prowler,SMG,Heavy
+20,R-99,SMG,Light
+20,Volt,SMG,Energy
+20,30-30 Repeater,Marksman,Heavy
+20,Havoc,Assault Rifle,Energy
+20,Flatline,Assault Rifle,Heavy
+20,G7-Scout,Marksman,Light
+20,Hemlok,Assault Rifle,Heavy
+20,Nemesis,Assault Rifle,Energy
+20,R301,Assault Rifle,Light
+20,Devotion,LMG,Energy
+20,L-Star,LMG,Energy
+20,Rampage,LMG,Heavy
+20,Spitfire,LMG,Light
+20,Bocek,Marksman,Care
+20,Charge Rifle,Sniper,Sniper
+20,Longbow,Sniper,Sniper
+20,Kraber,Sniper,Care
+20,Sentinel,Sniper,Sniper
+20,Triple Take,Marksman,Energy
+20,Eva-8,Shotgun,Shotgun
+20,Mastiff,Shotgun,Shotgun
+20,Mozambique,Shotgun,Shotgun
+20,Peacekeeper,Shotgun,Shotgun
+21,RE-45,Pistol,Light
+21,P220,Pistol,Light
+21,Wingman,Pistol,Sniper
+21,Alternator,SMG,Light
+21,Car,SMG,Heavy
+21,Prowler,SMG,Heavy
+21,R-99,SMG,Light
+21,Volt,SMG,Energy
+21,30-30 Repeater,Marksman,Heavy
+21,Havoc,Assault Rifle,Energy
+21,Flatline,Assault Rifle,Heavy
+21,G7-Scout,Marksman,Light
+21,Hemlok,Assault Rifle,Heavy
+21,Nemesis,Assault Rifle,Energy
+21,R301,Assault Rifle,Light
+21,Devotion,LMG,Care
+21,L-Star,LMG,Energy
+21,Rampage,LMG,Heavy
+21,Spitfire,LMG,Light
+21,Bocek,Marksman,Care
+21,Charge Rifle,Sniper,Sniper
+21,Longbow,Sniper,Sniper
+21,Kraber,Sniper,Care
+21,Sentinel,Sniper,Sniper
+21,Triple Take,Marksman,Energy
+21,Eva-8,Shotgun,Care
+21,Mastiff,Shotgun,Shotgun
+21,Mozambique,Shotgun,Shotgun
+21,Peacekeeper,Shotgun,Shotgun
+22,RE-45,Pistol,Light
+22,P220,Pistol,Light
+22,Wingman,Pistol,Sniper
+22,Alternator,SMG,Light
+22,Car,SMG,Heavy
+22,Prowler,SMG,Heavy
+22,R-99,SMG,Care
+22,Volt,SMG,Energy
+22,30-30 Repeater,Marksman,Heavy
+22,Havoc,Assault Rifle,Energy
+22,Flatline,Assault Rifle,Heavy
+22,G7-Scout,Marksman,Light
+22,Hemlok,Assault Rifle,Heavy
+22,Nemesis,Assault Rifle,Energy
+22,R301,Assault Rifle,Light
+22,Devotion,LMG,Care
+22,L-Star,LMG,Energy
+22,Rampage,LMG,Heavy
+22,Spitfire,LMG,Light
+22,Bocek,Marksman,Care
+22,Charge Rifle,Sniper,Sniper
+22,Longbow,Sniper,Sniper
+22,Kraber,Sniper,Care
+22,Sentinel,Sniper,Sniper
+22,Triple Take,Marksman,Energy
+22,Eva-8,Shotgun,Shotgun
+22,Mastiff,Shotgun,Shotgun
+22,Mozambique,Shotgun,Shotgun
+22,Peacekeeper,Shotgun,Shotgun

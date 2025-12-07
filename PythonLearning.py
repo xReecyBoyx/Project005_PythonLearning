@@ -642,7 +642,10 @@ def ReadApexData(fileName, numberRecs):
 
     lateAdditions = {
         "hotZone": False,
-        "jumpmaster": False
+        "jumpmaster": False,
+        "lowLevel": False,
+        "tmRankedBadge": False,
+        "tmKillsBadge": False
     }
 
     try :
@@ -967,15 +970,15 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "alter") :
         return {
-            "SeasonReleased": 15,
-            "LegendClass": "Controller",
-            "HasCoverGen": True,
+            "SeasonReleased": 21,
+            "LegendClass": "Skirmmisher",
+            "HasCoverGen": False,
             "HasDamageDeal": False,
             "HasFortify": True,
             "HasScan": False,
             "HasRevive": False,
-            "HasMovement": False,
-            "HasTeamMovement": False
+            "HasMovement": True,
+            "HasTeamMovement": True
         }
     else :
         return None
@@ -1006,42 +1009,10 @@ def ReadApexRow(apexRow, lateAdditions) :
         if (hotZoneOriginal != None) :
             lateAdditions["hotZone"] = True
 
-    legendSelected = str(apexRow[10])
+    legendDict = GetCharacterDetail(str(apexRow[10]))
     legendSelectionNumber = safeInt(apexRow[11])
-    secondLegendSelected = str(apexRow[12])
-    thirdLegendSelected = str(apexRow[13])
-
-    legendDict = GetCharacterDetail(legendSelected)
-    secondLegendDict = GetCharacterDetail(secondLegendSelected)
-    thirdLegendDict = GetCharacterDetail(thirdLegendSelected)
-
-    legendSelectedClass = RetrievNullableKey(legendDict, "LegendClass")
-    secondLegendClass = RetrievNullableKey(secondLegendDict, "LegendClass")
-    thirdLegendClass = RetrievNullableKey(thirdLegendDict, "LegendClass")
-    legendSeasonReleased = safeInt(RetrievNullableKey(legendDict, "SeasonReleased"))
-    secondLegendSeasonReleased = safeInt(RetrievNullableKey(secondLegendDict, "SeasonReleased"))
-    thirdLegendSeasonReleased = safeInt(RetrievNullableKey(thirdLegendDict, "SeasonReleased"))
-    legendCoverGen = RetrievNullableKey(legendDict, "HasCoverGen")
-    secondLegendCoverGen = RetrievNullableKey(secondLegendDict, "HasCoverGen")
-    thirdLegendCoverGen = RetrievNullableKey(thirdLegendDict, "HasCoverGen")
-    legendDamageDeal = RetrievNullableKey(legendDict, "HasDamageDeal")
-    secondLegendDamageDeal = RetrievNullableKey(secondLegendDict, "HasDamageDeal")
-    thirdLegendDamageDeal = RetrievNullableKey(thirdLegendDict, "HasDamageDeal")
-    legendFortify = RetrievNullableKey(legendDict, "HasFortify")
-    secondLegendFortify= RetrievNullableKey(secondLegendDict, "HasFortify")
-    thirdLegendFortify= RetrievNullableKey(thirdLegendDict, "HasFortify")
-    legendScan = RetrievNullableKey(legendDict, "HasScan")
-    secondLegendScan = RetrievNullableKey(secondLegendDict, "HasScan")
-    thirdLegendScan = RetrievNullableKey(thirdLegendDict, "HasScan")
-    legendRevive = RetrievNullableKey(legendDict, "HasRevive")
-    secondLegendRevive = RetrievNullableKey(secondLegendDict, "HasRevive")
-    thirdLegendRevive = RetrievNullableKey(thirdLegendDict, "HasRevive")
-    legendMovement = RetrievNullableKey(legendDict, "HasMovement")
-    secondLegendMovement = RetrievNullableKey(secondLegendDict, "HasMovement")
-    thirdLegendMovement = RetrievNullableKey(thirdLegendDict, "HasMovement")
-    legendTeamMovement = RetrievNullableKey(legendDict, "HasTeamMovement")
-    secondLegendTeamMovement = RetrievNullableKey(secondLegendDict, "HasTeamMovement")
-    thirdLegendTeamMovement = RetrievNullableKey(thirdLegendDict, "HasTeamMovement")
+    secondLegendDict = GetCharacterDetail(str(apexRow[12]))
+    thirdLegendDict = GetCharacterDetail(str(apexRow[13]))
 
     legendJumpmaster = safeInt(apexRow[15])
     jumpmaster = "Pre-Collection"
@@ -1077,6 +1048,76 @@ def ReadApexRow(apexRow, lateAdditions) :
     teammate1RankBroad = RetrievNullableKey(teammate1RankDetail, "rankBroad")
     teammate2RankBroad = RetrievNullableKey(teammate2RankDetail, "rankBroad")
 
+    higherLevelSpot = str(apexRow[22])
+    rankedLobby = GetRankedLobby(gameType, myRank, teammate1Rank, teammate2Rank, higherLevelSpot)
+    rankedLobbyBaseline = GetRankBaseline(rankedLobby)
+
+    lowLevel = safeInt(apexRow[23])
+    lowLevelTm = "Pre-Collection"
+    if (lateAdditions.get("lowLevel") == True) :
+        lowLevelTm = "Low Level TM" if lowLevelTm == 1 else "No Low Level"
+        
+    else :
+        if (lowLevel != None) :
+            lateAdditions["lowLevel"] = True
+
+    tm1RankedBadgeOriginal = str(apexRow[24])
+    tm2RankedBadgeOriginal = str(apexRow[25])
+    tm1RankedBadge = "Pre-Collection"
+    tm2RankedBadge = "Pre-Collection"
+    if (lateAdditions.get("tmRankedBadge") == True) :
+        tm1RankedBadge = tm1RankedBadgeOriginal
+        tm2RankedBadge = tm2RankedBadgeOriginal 
+        
+    else :
+        if (tm1RankedBadgeOriginal != '' or 
+            tm2RankedBadgeOriginal != '') :
+            lateAdditions["tmRankedBadge"] = True
+
+    tm1KillsBadgeOriginal = safeInt(apexRow[26])
+    tm2KillsBadgeOriginal = safeInt(apexRow[27])
+    tm1KillsBadge = "Pre-Collection"
+    tm2KillsBadge = "Pre-Collection"
+    if (lateAdditions.get("tmKillsBadge") == True) :
+        tm1KillsBadge = str(apexRow[26])
+        tm2KillsBadge = str(apexRow[27])
+        
+    else :
+        if (tm1KillsBadgeOriginal != None or 
+            tm2KillsBadgeOriginal != None) :
+            lateAdditions["tmKillsBadge"] = True
+
+    survivalTime = datetime.strptime(apexRow[28], "%H:%M").time()
+    tm1SurvivalTime = datetime.strptime(apexRow[29], "%H:%M").time()
+    tm2SurvivalTime = datetime.strptime(apexRow[30], "%H:%M").time()
+
+    survivalTimeSecs = timeToSeconds(survivalTime)
+    tm1SurvivalTimeSecs = timeToSeconds(tm1SurvivalTime)
+    tm2SurvivalTimeSecs = timeToSeconds(tm2SurvivalTime)
+
+    kills = safeInt(apexRow[31])
+    tm1Kills = safeInt(apexRow[32])
+    tm2Kills = safeInt(apexRow[33])
+    knockdowns = safeInt(apexRow[34])
+
+    firstLegendDeath = str(apexRow[35])
+    secondLegendDeath = str(apexRow[36])
+    thirdLegendDeath = str(apexRow[37])
+
+    squadPlaced = safeInt(apexRow[38])
+
+    reviveGiven = safeInt(apexRow[39])
+    tm1ReviveGiven = safeInt(apexRow[40])
+    tm2ReviveGiven = safeInt(apexRow[41])
+    respawnGiven = safeInt(apexRow[42])
+    tm1RespawnGiven = safeInt(apexRow[43])
+    tm2RespawnGiven = safeInt(apexRow[44])
+
+    tm1Console = str(apexRow[45])
+    tm2Console = str(apexRow[46])
+
+    diedInitialPhase = str(apexRow[47])
+
     apexGame.append(gameId)
     apexGame.append(gameNumber)
     apexGame.append(datePlayed)
@@ -1089,37 +1130,10 @@ def ReadApexRow(apexRow, lateAdditions) :
     apexGame.append(deathSite)
     apexGame.append(hotZoneOriginal)
     apexGame.append(hotZone)
-    apexGame.append(legendSelected)
+    apexGame.append(legendDict)
     apexGame.append(legendSelectionNumber)
-    apexGame.append(secondLegendSelected)
-    apexGame.append(thirdLegendSelected)
-    apexGame.append(legendSelectedClass)
-    apexGame.append(secondLegendClass)
-    apexGame.append(thirdLegendClass)
-    apexGame.append(legendSeasonReleased)
-    apexGame.append(secondLegendSeasonReleased)
-    apexGame.append(thirdLegendSeasonReleased)
-    apexGame.append(legendCoverGen)
-    apexGame.append(secondLegendCoverGen)
-    apexGame.append(thirdLegendCoverGen)
-    apexGame.append(legendFortify)
-    apexGame.append(secondLegendFortify)
-    apexGame.append(thirdLegendFortify)
-    apexGame.append(legendDamageDeal)
-    apexGame.append(secondLegendDamageDeal)
-    apexGame.append(thirdLegendDamageDeal)
-    apexGame.append(legendRevive)
-    apexGame.append(secondLegendRevive)
-    apexGame.append(thirdLegendRevive)
-    apexGame.append(legendScan)
-    apexGame.append(secondLegendScan)
-    apexGame.append(thirdLegendScan)
-    apexGame.append(legendMovement)
-    apexGame.append(secondLegendMovement)
-    apexGame.append(thirdLegendMovement)
-    apexGame.append(legendTeamMovement)
-    apexGame.append(secondLegendTeamMovement)
-    apexGame.append(thirdLegendTeamMovement)
+    apexGame.append(secondLegendDict)
+    apexGame.append(thirdLegendDict)
     apexGame.append(legendJumpmaster)
     apexGame.append(jumpmaster)
     apexGame.append(damageDealt)
@@ -1134,6 +1148,42 @@ def ReadApexRow(apexRow, lateAdditions) :
     apexGame.append(myRankBroad)
     apexGame.append(teammate1RankBroad)
     apexGame.append(teammate2RankBroad)
+    apexGame.append(higherLevelSpot)
+    apexGame.append(rankedLobby)
+    apexGame.append(rankedLobbyBaseline)
+    apexGame.append(lowLevel)
+    apexGame.append(lowLevelTm)
+    apexGame.append(tm1RankedBadgeOriginal)
+    apexGame.append(tm1RankedBadge)
+    apexGame.append(tm2RankedBadgeOriginal)
+    apexGame.append(tm2RankedBadge)
+    apexGame.append(tm1KillsBadgeOriginal)
+    apexGame.append(tm1KillsBadge)
+    apexGame.append(tm2KillsBadgeOriginal)
+    apexGame.append(tm2KillsBadge)
+    apexGame.append(survivalTime)
+    apexGame.append(tm1SurvivalTime)
+    apexGame.append(tm2SurvivalTime)
+    apexGame.append(survivalTimeSecs)
+    apexGame.append(tm1SurvivalTimeSecs)
+    apexGame.append(tm2SurvivalTimeSecs)
+    apexGame.append(kills)
+    apexGame.append(tm1Kills)
+    apexGame.append(tm2Kills)
+    apexGame.append(knockdowns)
+    apexGame.append(firstLegendDeath)
+    apexGame.append(secondLegendDeath)
+    apexGame.append(thirdLegendDeath)
+    apexGame.append(squadPlaced)
+    apexGame.append(reviveGiven)
+    apexGame.append(tm1ReviveGiven)
+    apexGame.append(tm2ReviveGiven)
+    apexGame.append(respawnGiven)
+    apexGame.append(tm1RespawnGiven)
+    apexGame.append(tm2RespawnGiven)
+    apexGame.append(diedInitialPhase)
+    apexGame.append(tm1Console)
+    apexGame.append(tm2Console)
 
     return apexGame
 
@@ -1185,12 +1235,15 @@ def GetRankDetail(rank, gameType):
         
         if (rankBroad == "Plat") :
             rankBaseline = GetRankBaseline("Platinum")
-            rankLevel = rankBaseline + nestedRankLevel
+            rankLevel = rankBaseline + (4 - nestedRankLevel)
             return GetRankDictionary(rankClean, rankLevel, "Platinum")
         
         else :
             rankBaseline = GetRankBaseline(rankBroad)
-            rankLevel = rankBaseline + nestedRankLevel
+            if (rankBaseline == None) :
+                return GetRankDictionary("Unknown", None, "Unknown")
+
+            rankLevel = rankBaseline + (4 - nestedRankLevel)
             return GetRankDictionary(rankClean, rankLevel, rankBroad)
 
          
@@ -1252,8 +1305,91 @@ def FirstLetterUpper(string):
     return newString
 
 
-##def BuildRankBroadDictionary(rankName, rankBaseline) :
+def GetRankedLobby(gameType, myRank, tm1Rank, tm2Rank, higherLevelSpot) :
+
+    gameTypeLower = gameType.lower()
+    if (gameTypeLower != "ranked") :
+        return 'Non-Ranked'
+
+    if (higherLevelSpot != None and
+        higherLevelSpot != '') :
+        
+        if (higherLevelSpot == 'Master & Pred') :
+            return "Master"
+        
+        else :
+            return FirstLetterUpper(higherLevelSpot)
     
+    myRankDict = GetRankDetail(myRank, gameType)
+    tm1RankDict = GetRankDetail(tm1Rank, gameType)
+    tm2RankDict = GetRankDetail(tm2Rank, gameType)
+
+    myRankScore = RetrievNullableKey(myRankDict, "rankLevel")
+    tm1RankScore = RetrievNullableKey(tm1RankDict, "rankLevel")
+    tm2RankScore = RetrievNullableKey(tm2RankDict, "rankLevel")
+
+    myRankBroad = FirstLetterUpper(RetrievNullableKey(myRankDict, "rankBroad"))
+    tm1RankBroad = FirstLetterUpper(RetrievNullableKey(tm1RankDict, "rankBroad"))
+    tm2RankBroad = FirstLetterUpper(RetrievNullableKey(tm2RankDict, "rankBroad"))
+
+    if (myRankScore == None) :
+        return 'Unknown'
+    
+    if (tm1RankScore == None or tm2RankScore == None) :
+        return myRankBroad
+    
+    maxScore = max(myRankScore, tm1RankScore, tm2RankScore)
+
+    if (maxScore == myRankScore) :
+        return myRankBroad
+    elif (maxScore == tm1RankScore) :
+        return tm1RankBroad
+    elif (maxScore == tm2RankBroad) :
+        return tm2RankBroad
+    else :
+        return 'Unknown'
+    
+def timeToSeconds(t) :
+    if (t == None) :
+        return None
+    
+    return (t.hour * 3600) + (t.minute * 60) + (t.second)
+
+
+def ReadCsv(fileName, keepHeaders) :
+    dataset = open(fileName, "r", encoding="utf-8-sig")
+    reader = csv.reader(dataset)
+    data = []
+    for i, row in enumerate(reader):
+        if (not keepHeaders) :
+            if (i == 0) :
+                continue
+                
+        data.append(row)
+    
+    dataset.close()
+    return data
+
+def GetWeaponDictionary():
+    weaponSeason = ReadCsv("WeaponSeason.csv", False)
+    season_dict = {}
+
+    for ws in weaponSeason:
+        s = int(ws[0])
+        
+        if season_dict.get(f"{s}") == None:
+            season_dict[f"{s}"] = {}
+
+        season_dict[f"{s}"][f"{ws[1]}"] = {
+            "weaponName": ws[1],
+            "weaponType": ws[2],
+            "ammoType": ws[3]
+        }
+    
+    return season_dict
+
+
+##def BuildRankBroadDictionary(rankName, rankBaseline) :
 
 apexData = ReadApexData("ApexLegendsData.csv", 6000)
 print(" ")
