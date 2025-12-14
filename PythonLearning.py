@@ -648,13 +648,14 @@ def ReadApexData(fileName, numberRecs):
         "tmKillsBadge": False
     }
 
+    weaponDict = GetWeaponDictionary()
     try :
         for i, row in enumerate(reader):
             if (numberRecs != None and i > (numberRecs + 1)):
                 break
 
             if (i > 1) :
-                apexGame = ReadApexRow(row, lateAdditions)
+                apexGame = ReadApexRow(row, lateAdditions, weaponDict)
                 apexData.append(apexGame)
                 rowCount += 1
     except Exception as e:
@@ -670,6 +671,7 @@ def GetCharacterDetail(characterName) :
     lowerName = characterName.lower()
     if (lowerName == "bangalore") :
         return {
+            "LegendName": "Bangalore",
             "SeasonReleased": 0,
             "LegendClass": "Assault",
             "HasCoverGen": True,
@@ -682,6 +684,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "bloodhound") :
         return {
+            "LegendName": "Bloodhound",
             "SeasonReleased": 0,
             "LegendClass": "Recon",
             "HasCoverGen": False,
@@ -694,6 +697,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "caustic") :
         return {
+            "LegendName": "Caustic",
             "SeasonReleased": 0,
             "LegendClass": "Controller",
             "HasCoverGen": False,
@@ -706,6 +710,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "gibraltar") :
         return {
+            "LegendName": "Gibraltar",
             "SeasonReleased": 0,
             "LegendClass": "Support",
             "HasCoverGen": True,
@@ -718,6 +723,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "lifeline") :
         return {
+            "LegendName": "Lifeline",
             "SeasonReleased": 0,
             "LegendClass": "Support",
             "HasCoverGen": False,
@@ -730,6 +736,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "mirage") :
         return {
+            "LegendName": "Mirage",
             "SeasonReleased": 0,
             "LegendClass": "Support",
             "HasCoverGen": False,
@@ -742,6 +749,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "pathfinder") :
         return {
+            "LegendName": "Pathfinder",
             "SeasonReleased": 0,
             "LegendClass": "Skirmisher",
             "HasCoverGen": False,
@@ -754,6 +762,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "wraith") :
         return {
+            "LegendName": "Wraith",
             "SeasonReleased": 0,
             "LegendClass": "Skirmisher",
             "HasCoverGen": False,
@@ -766,6 +775,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "octane") :
         return {
+            "LegendName": "Octane",
             "SeasonReleased": 1,
             "LegendClass": "Skirmisher",
             "HasCoverGen": False,
@@ -778,6 +788,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "wattson") :
         return {
+            "LegendName": "Wattson",
             "SeasonReleased": 2,
             "LegendClass": "Controller",
             "HasCoverGen": False,
@@ -790,6 +801,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "crypto") :
         return {
+            "LegendName": "Crypto",
             "SeasonReleased": 3,
             "LegendClass": "Recon",
             "HasCoverGen": False,
@@ -802,6 +814,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "revenant") :
         return {
+            "LegendName": "Revenant",
             "SeasonReleased": 4,
             "LegendClass": "Skirmisher",
             "HasCoverGen": False,
@@ -814,6 +827,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "loba") :
         return {
+            "LegendName": "Loba",
             "SeasonReleased": 5,
             "LegendClass": "Support",
             "HasCoverGen": False,
@@ -826,6 +840,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "rampart") :
         return {
+            "LegendName": "Rampart",
             "SeasonReleased": 6,
             "LegendClass": "Controller",
             "HasCoverGen": True,
@@ -838,6 +853,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "horizon") :
         return {
+            "LegendName": "Horizon",
             "SeasonReleased": 7,
             "LegendClass": "Skirmisher",
             "HasCoverGen": False,
@@ -850,6 +866,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "fuse") :
         return {
+            "LegendName": "Fuse",
             "SeasonReleased": 8,
             "LegendClass": "Assault",
             "HasCoverGen": False,
@@ -862,6 +879,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "valkyrie") :
         return {
+            "LegendName": "alkyrie",
             "SeasonReleased": 9,
             "LegendClass": "Skirmisher",
             "HasCoverGen": False,
@@ -874,6 +892,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "seer") :
         return {
+            "LegendName": "Seer",
             "SeasonReleased": 10,
             "LegendClass": "Recon",
             "HasCoverGen": False,
@@ -886,6 +905,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "ash") :
         return {
+            "LegendName": "Ash",
             "SeasonReleased": 11,
             "LegendClass": "Assault",
             "HasCoverGen": False,
@@ -898,6 +918,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "maggie") :
         return {
+            "LegendName": "Maggie",
             "SeasonReleased": 12,
             "LegendClass": "Assault",
             "HasCoverGen": False,
@@ -910,6 +931,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "newcastle") :
         return {
+            "LegendName": "Newcastle",
             "SeasonReleased": 13,
             "LegendClass": "Support",
             "HasCoverGen": True,
@@ -922,6 +944,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "vantage") :
         return {
+            "LegendName": "Vantage",
             "SeasonReleased": 14,
             "LegendClass": "Recon",
             "HasCoverGen": False,
@@ -934,6 +957,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "catalyst") :
         return {
+            "LegendName": "Catalyst",
             "SeasonReleased": 15,
             "LegendClass": "Controller",
             "HasCoverGen": True,
@@ -946,6 +970,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "ballistic") :
         return {
+            "LegendName": "Ballistic",
             "SeasonReleased": 17,
             "LegendClass": "Assault",
             "HasCoverGen": False,
@@ -958,6 +983,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "conduit") :
         return {
+            "LegendName": "Conduit",
             "SeasonReleased": 19,
             "LegendClass": "Support",
             "HasCoverGen": True,
@@ -970,6 +996,7 @@ def GetCharacterDetail(characterName) :
         }
     elif (lowerName == "alter") :
         return {
+            "LegendName": "Alter",
             "SeasonReleased": 21,
             "LegendClass": "Skirmmisher",
             "HasCoverGen": False,
@@ -985,7 +1012,7 @@ def GetCharacterDetail(characterName) :
     
 
 
-def ReadApexRow(apexRow, lateAdditions) :
+def ReadApexRow(apexRow, lateAdditions, weaponDict) :
 
     apexGame = []
 
@@ -1118,6 +1145,19 @@ def ReadApexRow(apexRow, lateAdditions) :
 
     diedInitialPhase = str(apexRow[47])
 
+    originalPrimaryWeapon = str(apexRow[48])
+    originalSecondaryWeapon = str(apexRow[49])
+    weaponSeason = RetrievNullableKey(weaponDict, str(season))
+    primaryWeaponDetail = RetrievNullableKey(weaponSeason, f"{originalPrimaryWeapon}")
+    primaryWeapon = RetrievNullableKey(primaryWeaponDetail, "weaponName")
+    primaryWeaponType =RetrievNullableKey(primaryWeaponDetail, "weaponType")
+    primaryAmmoType = RetrievNullableKey(primaryWeaponDetail, "ammoType")
+
+    secondaryWeaponDetail = RetrievNullableKey(weaponSeason, f"{originalSecondaryWeapon}")
+    secondaryWeapon = RetrievNullableKey(secondaryWeaponDetail, "weaponName")
+    secondaryWeaponType = RetrievNullableKey(secondaryWeaponDetail, "weaponType")
+    secondaryAmmoType = RetrievNullableKey(secondaryWeaponDetail, "ammoType")
+
     apexGame.append(gameId)
     apexGame.append(gameNumber)
     apexGame.append(datePlayed)
@@ -1153,13 +1193,11 @@ def ReadApexRow(apexRow, lateAdditions) :
     apexGame.append(rankedLobbyBaseline)
     apexGame.append(lowLevel)
     apexGame.append(lowLevelTm)
-    apexGame.append(tm1RankedBadgeOriginal)
     apexGame.append(tm1RankedBadge)
-    apexGame.append(tm2RankedBadgeOriginal)
     apexGame.append(tm2RankedBadge)
     apexGame.append(tm1KillsBadgeOriginal)
-    apexGame.append(tm1KillsBadge)
     apexGame.append(tm2KillsBadgeOriginal)
+    apexGame.append(tm1KillsBadge)
     apexGame.append(tm2KillsBadge)
     apexGame.append(survivalTime)
     apexGame.append(tm1SurvivalTime)
@@ -1184,6 +1222,12 @@ def ReadApexRow(apexRow, lateAdditions) :
     apexGame.append(diedInitialPhase)
     apexGame.append(tm1Console)
     apexGame.append(tm2Console)
+    apexGame.append(primaryWeapon)
+    apexGame.append(primaryWeaponType)
+    apexGame.append(primaryAmmoType)
+    apexGame.append(secondaryWeapon)
+    apexGame.append(secondaryWeaponType)
+    apexGame.append(secondaryAmmoType)
 
     return apexGame
 
@@ -1388,6 +1432,322 @@ def GetWeaponDictionary():
     
     return season_dict
 
+def TranformApexData(apexGames) :
+    cleanApexGames = []
+    apexGames = sorted(apexGames, key=lambda game: game[4])
+    sessionNumber = 1
+    previousDateTime = None
+    rollingGames = []
+
+    for apexGame in apexGames :
+        curGameId = apexGame[0]
+        curGameNumber = apexGame[1]
+        curDatePlayedString = datetime.strptime(apexGame[2], '%Y/%m/%d')
+        
+        curHourPlayed = apexGame[3].hour
+        curTimePeriodPlayed = ''
+        if (curHourPlayed <= 5) :
+            curTimePeriodPlayed = 'Evening'
+        elif (curHourPlayed <= 11) :
+            curTimePeriodPlayed = 'Morning'
+        elif (curHourPlayed <= 17) :
+            curTimePeriodPlayed = 'Afternoon'
+        elif (curHourPlayed <= 23) :
+            curTimePeriodPlayed = 'Evening'
+        else :
+            curTimePeriodPlayed = 'Unknown'
+
+        curTimePlayedString = datetime.strptime(apexGame[3], '%H:%M')
+        curDateTime = apexGame[4]
+
+        if (previousDateTime != None and 
+            (curDateTime - previousDateTime).total_seconds() > (60 * 60 * 4)) :
+            sessionNumber += 1
+        
+        curSeason = apexGame[5]
+        gameType = apexGame[6]
+        if (gameType != 'Ranked' and
+            gameType != 'Trios') :
+            gameType = 'Special GM'
+        
+        map = apexGame[7]
+        landingSite = apexGame[8]
+        deathSite = apexGame[9]
+        if (deathSite == '') :
+            deathSite = 'No Death'
+
+        landedHotBinary = apexGame[10]
+        landedHot = apexGame[11]
+
+        legendDict = apexGame[12]
+        legendSelectionNumber = apexGame[13]
+        secondLegendDict = apexGame[14]
+        thirdLegendDict = apexGame[15]
+
+        #Legend Selected
+        legendSelected = RetrievNullableKey(legendDict, "LegendName")
+        legendSeason = RetrievNullableKey(legendDict, "SeasonReleased")
+        legendClass = RetrievNullableKey(legendDict, "LegendClass")
+        
+        legendHasCoverGen = RetrievNullableKey(legendDict, "HasCoverGen")
+        legendCoverGen = GetAbilityCoverage(legendHasCoverGen, "Cover-Gen")
+
+        legendHasDamageDeal = RetrievNullableKey(legendDict, "HasDamageDeal")
+        legendDamageDeal = GetAbilityCoverage(legendHasDamageDeal, "Damage Dealing")
+
+        legendHasFortify = RetrievNullableKey(legendDict, "HasFortify")
+        legendFortify = GetAbilityCoverage(legendHasFortify, "Fortify")
+
+        legendHasScan = RetrievNullableKey(legendDict, "HasScan")
+        legendScan = GetAbilityCoverage(legendHasScan, "Scan")
+
+        legendHasRevive = RetrievNullableKey(legendDict, "HasRevive")
+        legendRevive = GetAbilityCoverage(legendHasRevive, "Revive")
+
+        legendHasMovement = RetrievNullableKey(legendDict, "HasMovement")
+        legendMovement = GetAbilityCoverage(legendHasRevive, "Movement")
+
+        legendHasTeamMovement = RetrievNullableKey(legendDict, "HasTeamMovement")
+        legendTeamMovement = GetAbilityCoverage(legendHasRevive, "Team Movement")
+
+        #Second Legend Selected
+        secondLegendSelected = RetrievNullableKey(secondLegendDict, "LegendName")
+        secondLegendSeason = RetrievNullableKey(secondLegendDict, "SeasonReleased")
+        secondLegendClass = RetrievNullableKey(secondLegendDict, "LegendClass")
+        
+        secondLegendHasCoverGen = RetrievNullableKey(secondLegendDict, "HasCoverGen")
+        secondLegendCoverGen = GetAbilityCoverage(secondLegendHasCoverGen, "Cover-Gen")
+
+        secondLegendHasDamageDeal = RetrievNullableKey(secondLegendDict, "HasDamageDeal")
+        secondLegendDamageDeal = GetAbilityCoverage(secondLegendHasDamageDeal, "Damage Dealing")
+
+        secondLegendHasFortify = RetrievNullableKey(secondLegendDict, "HasFortify")
+        secondLegendFortify = GetAbilityCoverage(secondLegendHasFortify, "Fortify")
+
+        secondLegendHasScan = RetrievNullableKey(secondLegendDict, "HasScan")
+        secondLegendScan = GetAbilityCoverage(secondLegendHasScan, "Scan")
+
+        secondLegendHasRevive = RetrievNullableKey(secondLegendDict, "HasRevive")
+        secondLegendRevive = GetAbilityCoverage(secondLegendHasRevive, "Revive")
+
+        secondLegendHasMovement = RetrievNullableKey(secondLegendDict, "HasMovement")
+        secondLegendMovement = GetAbilityCoverage(secondLegendHasRevive, "Movement")
+
+        secondLegendHasTeamMovement = RetrievNullableKey(secondLegendDict, "HasTeamMovement")
+        secondLegendTeamMovement = GetAbilityCoverage(secondLegendHasRevive, "Team Movement")
+
+
+        #Third Legend Selected
+        thirdLegendSelected = RetrievNullableKey(thirdLegendDict, "LegendName")
+        thirdLegendSeason = RetrievNullableKey(thirdLegendDict, "SeasonReleased")
+        thirdLegendClass = RetrievNullableKey(thirdLegendDict, "LegendClass")
+        
+        thirdLegendHasCoverGen = RetrievNullableKey(thirdLegendDict, "HasCoverGen")
+        thirdLegendCoverGen = GetAbilityCoverage(thirdLegendHasCoverGen, "Cover-Gen")
+
+        thirdLegendHasDamageDeal = RetrievNullableKey(thirdLegendDict, "HasDamageDeal")
+        thirdLegendDamageDeal = GetAbilityCoverage(thirdLegendHasDamageDeal, "Damage Dealing")
+
+        thirdLegendHasFortify = RetrievNullableKey(thirdLegendDict, "HasFortify")
+        thirdLegendFortify = GetAbilityCoverage(thirdLegendHasFortify, "Fortify")
+
+        thirdLegendHasScan = RetrievNullableKey(thirdLegendDict, "HasScan")
+        thirdLegendScan = GetAbilityCoverage(thirdLegendHasScan, "Scan")
+
+        thirdLegendHasRevive = RetrievNullableKey(thirdLegendDict, "HasRevive")
+        thirdLegendRevive = GetAbilityCoverage(thirdLegendHasRevive, "Revive")
+
+        thirdLegendHasMovement = RetrievNullableKey(thirdLegendDict, "HasMovement")
+        thirdLegendMovement = GetAbilityCoverage(thirdLegendHasRevive, "Movement")
+
+        thirdLegendHasTeamMovement = RetrievNullableKey(thirdLegendDict, "HasTeamMovement")
+        thirdLegendTeamMovement = GetAbilityCoverage(thirdLegendHasRevive, "Team Movement")
+
+        jumpmasterLegend = apexGame[16]
+        jumpmaster = apexGame[17]
+
+        damageDealt = apexGame[18]
+        tm1DamageDealt = apexGame[19]
+        tm2DamageDealt = apexGame[20]
+
+        squadDamageDealt = damageDealt + tm1DamageDealt + tm2DamageDealt
+
+        damageDealtBandsSmall = BandNumericField(damageDealt, 50, 3000)
+        tm1DamageDealtBandsSmall = BandNumericField(tm1DamageDealt, 50, 3000)
+        tm2DamageDealtBandsSmall = BandNumericField(tm2DamageDealt, 50, 3000)
+
+        damageDealtBands = BandNumericField(damageDealt, 100, 3000)
+        tm1DamageDealtBands = BandNumericField(tm1DamageDealt, 100, 3000)
+        tm2DamageDealtBands = BandNumericField(tm2DamageDealt, 100, 3000)
+
+        damageDealtBandsLarge = BandNumericField(damageDealt, 250, 3000)
+        tm1DamageDealtBandsLarge = BandNumericField(tm1DamageDealt, 250, 3000)
+        tm2DamageDealtBandsLarge = BandNumericField(tm2DamageDealt, 250, 3000)
+
+        damageVsTm1 = damageDealt - tm1DamageDealt
+        damageVsTm2 = damageDealt - tm2DamageDealt
+        damageVsTeammates = damageVsTm1 + damageVsTm2
+
+        damagePositionSquad = 0
+        damagePositionCategory = ''
+        totalTmsExceededDamage = 0
+        if (damageDealt >= tm1DamageDealt and damageDealt >= tm2DamageDealt) :
+            damagePositionSquad = 1
+            damagePositionCategory = '1st'
+            totalTmsExceededDamage = 2
+        elif (damageDealt >= tm1DamageDealt or damageDealt >= tm2DamageDealt) :
+            damagePositionSquad = 2
+            damagePositionCategory = '2nd'
+            totalTmsExceededDamage = 1
+        else :
+            damagePositionSquad = 3
+            damagePositionCategory = '3rd'
+            totalTmsExceededDamage = 0  
+
+        damageProportionBanded = BandNumericField((damageDealt / squadDamageDealt) * 100, 10, 1000)
+
+        myRank = apexGame[21]
+        tm1Rank = apexGame[22]
+        tm2Rank = apexGame[23]
+
+        myRankScore = apexGame[24]
+        tm1RankScore = apexGame[25]
+        tm2RankScore = apexGame[26]
+
+        myRankBroad = apexGame[27]
+        tm1RankBroad = apexGame[28]
+        tm2RankBroad = apexGame[29]
+
+        rankedLobby = apexGame[31]
+        rankedBaseline = apexGame[32]
+
+        lowLevelTm = apexGame[34]
+
+        tm1RankedBadge = apexGame[35]
+        tm2RankedBadge = apexGame[36]
+        
+        tm1KillsBadge = apexGame[39]
+        tm2KillsBadge = apexGame[40]
+
+        tm1KillsBadgeBanded = BandNumericField(apexGame[37], 500, 6000)
+        tm2KillsBadgeBanded = BandNumericField(apexGame[38], 500, 6000)
+
+        survivalTime = apexGame[41].strftime("%H:%M")
+        survivalTimeSecs = apexGame[44]
+        survivalTimeMins = math.floor(survivalTimeSecs / 60)
+        survivalTimeMinsCapped = BandNumericField(survivalTimeMins, 1, 15)
+        survivalTimeMinsBanded = BandNumericField(survivalTimeMins, 3, 15)
+
+        tm1SurvivalTime = apexGame[42].strftime("%H:%M")
+        tm1SurvivalTimeSecs = apexGame[45]
+        tm1SurvivalTimeMins = math.floor(tm1SurvivalTimeSecs / 60)
+        tm1SurvivalTimeMinsCapped = BandNumericField(tm1SurvivalTimeMins, 1, 15)
+        tm1SurvivalTimeMinsBanded = BandNumericField(tm1SurvivalTimeMins, 3, 15)
+
+        tm2SurvivalTime = apexGame[43].strftime("%H:%M")
+        tm2SurvivalTimeSecs = apexGame[46]
+        tm2SurvivalTimeMins = math.floor(tm2SurvivalTimeSecs / 60)
+        tm2SurvivalTimeMinsCapped = BandNumericField(tm2SurvivalTimeMins, 1, 15)
+        tm2SurvivalTimeMinsBanded = BandNumericField(tm2SurvivalTimeMins, 3, 15)
+
+        kills = apexGame[47]
+        tm1Kills = apexGame[48]
+        tm2Kills = apexGame[49]
+
+        killsBanded = BandNumericField(kills, 1, 7)
+        tm1KillsBanded = BandNumericField(tm1Kills, 1, 7)
+        tm2KillsBanded = BandNumericField(tm2Kills, 1, 7)
+
+        knockdowns = apexGame[50]
+
+        squadKills = kills + tm1Kills + tm2Kills
+
+        firstLegendDeath = apexGame[51]
+        secondLegendDeath = apexGame[52]
+        thirdLegendDeath = apexGame[53]
+
+        squadDeathPosition = ''
+        if (firstLegendDeath == legendSelected) :
+            squadDeathPosition = '1'
+        elif (secondLegendDeath == legendSelected) :
+            squadDeathPosition = '2'
+        elif (thirdLegendDeath == legendSelected) :
+            squadDeathPosition = '3'
+
+        squadPlacement = apexGame[54]
+        squadPlacementString = f"{squadPlacement}th"
+        if (squadPlacement == 1) :
+            squadPlacementString = "1st"
+        elif (squadPlacement == 2) :
+            squadPlacementString = "2nd"
+        elif (squadPlacement == 3) :
+            squadPlacementString = "3rd"
+        
+        reviveGiven = apexGame[55]
+        tm1ReviveGiven = apexGame[56]
+        tm2ReviveGiven = apexGame[57]
+        squadReviveGiven = reviveGiven + tm1ReviveGiven + tm2ReviveGiven
+
+        respawnGiven = apexGame[58]
+        tm1RespawnGiven = apexGame[59]
+        tm2RespawnGiven = apexGame[60]
+        squadRespawnGiven = respawnGiven + tm1RespawnGiven + tm2RespawnGiven
+
+        squadResRev = squadReviveGiven + squadRespawnGiven
+
+        diedInitialPhase = apexGame[61]
+        tm1Console = apexGame[62]
+        tm2Console =apexGame[63]
+
+        primaryWeapon = apexGame[64]
+        primaryWeaponType = apexGame[65]
+        primaryWeaponAmmo = apexGame[66]
+
+        secondaryWeapon = apexGame[67]
+        secondaryWeaponType = apexGame[68]
+        secondaryWeaponAmmo = apexGame[69]
+
+
+
+
+        
+
+
+
+
+def GetAbilityCoverage(hasAbility, abilityName) :
+    if (hasAbility) :
+        return f"Has {abilityName}"
+    else :
+        return f"No {abilityName}"
+
+
+def BandNumericField(number, bandSize, cap) :
+    safeNumber = safeInt(number)
+    if (safeNumber == None) :
+        return ''
+
+    if (safeNumber >= cap) :
+        return f"{cap}+"
+    
+    floored = math.floor(safeNumber / bandSize) * bandSize
+    banded = f"${floored} - {floored + bandSize - 1}"
+    return banded
+
+
+
+
+
+
+
+       
+
+ 
+
+            
+
+
+
 
 ##def BuildRankBroadDictionary(rankName, rankBaseline) :
 
@@ -1413,16 +1773,4 @@ for i, row in enumerate(reader):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-    
 
