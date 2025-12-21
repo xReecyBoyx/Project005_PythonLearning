@@ -1436,10 +1436,13 @@ def TranformApexData(apexGames) :
     cleanApexGames = []
     apexGames = sorted(apexGames, key=lambda game: game[4])
     sessionNumber = 1
-    previousDateTime = None
-    rollingGames = []
 
-    for apexGame in apexGames :
+    #Previous Game Logic
+    rollingGames = []
+    previousDateTime = None
+
+    for apexGame in apexGames :      
+        fullGameData = []
         curGameId = apexGame[0]
         curGameNumber = apexGame[1]
         curDatePlayedString = datetime.strptime(apexGame[2], '%Y/%m/%d')
@@ -1464,6 +1467,8 @@ def TranformApexData(apexGames) :
             (curDateTime - previousDateTime).total_seconds() > (60 * 60 * 4)) :
             sessionNumber += 1
         
+        previousDateTime = curDateTime
+
         curSeason = apexGame[5]
         gameType = apexGame[6]
         if (gameType != 'Ranked' and
@@ -1485,8 +1490,12 @@ def TranformApexData(apexGames) :
         thirdLegendDict = apexGame[15]
 
         #Legend Selected
+        legendNewThreshold = 2
+
         legendSelected = RetrievNullableKey(legendDict, "LegendName")
         legendSeason = RetrievNullableKey(legendDict, "SeasonReleased")
+        legendNew = GetLegendNewOld(curSeason, legendSeason, legendNewThreshold)
+        legendOg = GetOgLegend(legendSeason)
         legendClass = RetrievNullableKey(legendDict, "LegendClass")
         
         legendHasCoverGen = RetrievNullableKey(legendDict, "HasCoverGen")
@@ -1505,14 +1514,18 @@ def TranformApexData(apexGames) :
         legendRevive = GetAbilityCoverage(legendHasRevive, "Revive")
 
         legendHasMovement = RetrievNullableKey(legendDict, "HasMovement")
-        legendMovement = GetAbilityCoverage(legendHasRevive, "Movement")
+        legendMovement = GetAbilityCoverage(legendHasMovement, "Movement")
 
         legendHasTeamMovement = RetrievNullableKey(legendDict, "HasTeamMovement")
-        legendTeamMovement = GetAbilityCoverage(legendHasRevive, "Team Movement")
+        legendTeamMovement = GetAbilityCoverage(legendHasTeamMovement, "Team Movement")
+
+        legendSelectedFavourite = GetFavouriteLegend(legendSelected)
 
         #Second Legend Selected
         secondLegendSelected = RetrievNullableKey(secondLegendDict, "LegendName")
         secondLegendSeason = RetrievNullableKey(secondLegendDict, "SeasonReleased")
+        secondLegendNew = GetLegendNewOld(curSeason, secondLegendSeason, legendNewThreshold)
+        secondLegendOg = GetOgLegend(secondLegendSeason)
         secondLegendClass = RetrievNullableKey(secondLegendDict, "LegendClass")
         
         secondLegendHasCoverGen = RetrievNullableKey(secondLegendDict, "HasCoverGen")
@@ -1531,15 +1544,17 @@ def TranformApexData(apexGames) :
         secondLegendRevive = GetAbilityCoverage(secondLegendHasRevive, "Revive")
 
         secondLegendHasMovement = RetrievNullableKey(secondLegendDict, "HasMovement")
-        secondLegendMovement = GetAbilityCoverage(secondLegendHasRevive, "Movement")
+        secondLegendMovement = GetAbilityCoverage(secondLegendHasMovement, "Movement")
 
         secondLegendHasTeamMovement = RetrievNullableKey(secondLegendDict, "HasTeamMovement")
-        secondLegendTeamMovement = GetAbilityCoverage(secondLegendHasRevive, "Team Movement")
+        secondLegendTeamMovement = GetAbilityCoverage(secondLegendHasTeamMovement, "Team Movement")
 
 
         #Third Legend Selected
         thirdLegendSelected = RetrievNullableKey(thirdLegendDict, "LegendName")
         thirdLegendSeason = RetrievNullableKey(thirdLegendDict, "SeasonReleased")
+        thirdLegendNew = GetLegendNewOld(curSeason, thirdLegendSeason, legendNewThreshold)
+        thirdLegendOg = GetOgLegend(secondLegendSeason)
         thirdLegendClass = RetrievNullableKey(thirdLegendDict, "LegendClass")
         
         thirdLegendHasCoverGen = RetrievNullableKey(thirdLegendDict, "HasCoverGen")
@@ -1558,10 +1573,34 @@ def TranformApexData(apexGames) :
         thirdLegendRevive = GetAbilityCoverage(thirdLegendHasRevive, "Revive")
 
         thirdLegendHasMovement = RetrievNullableKey(thirdLegendDict, "HasMovement")
-        thirdLegendMovement = GetAbilityCoverage(thirdLegendHasRevive, "Movement")
+        thirdLegendMovement = GetAbilityCoverage(thirdLegendHasMovement, "Movement")
 
         thirdLegendHasTeamMovement = RetrievNullableKey(thirdLegendDict, "HasTeamMovement")
-        thirdLegendTeamMovement = GetAbilityCoverage(thirdLegendHasRevive, "Team Movement")
+        thirdLegendTeamMovement = GetAbilityCoverage(thirdLegendHasTeamMovement, "Team Movement")
+
+        squadNewLegend = GetSquadNewLegend(curSeason, 
+                                           legendSeason, secondLegendSeason, thirdLegendSeason, 
+                                           legendNewThreshold)
+        
+        squadOgLegend = GetSquadOgLegend(legendSeason, secondLegendSeason, thirdLegendSeason)
+
+        squadCoverGen = SquadAbilityCoverage(
+            legendHasCoverGen, secondLegendHasCoverGen, thirdLegendHasCoverGen, "Cover-Gen")
+
+        squadDamageDealing = SquadAbilityCoverage(
+            legendHasDamageDeal, secondLegendHasDamageDeal, thirdLegendHasDamageDeal, "Damage")
+        
+        squadFortify = SquadAbilityCoverage(
+            legendHasFortify, secondLegendHasFortify, thirdLegendHasFortify, "Fortify")
+        
+        squadRevive = SquadAbilityCoverage(
+            legendHasRevive, secondLegendHasRevive, thirdLegendHasRevive, "Revive")
+        
+        squadScan = SquadAbilityCoverage(
+            legendHasScan, secondLegendHasScan, thirdLegendHasScan, "Scan")
+        
+        squadTeamMovement = SquadAbilityCoverage(
+            legendHasTeamMovement, secondLegendHasTeamMovement, thirdLegendHasTeamMovement, "Team Movement")
 
         jumpmasterLegend = apexGame[16]
         jumpmaster = apexGame[17]
@@ -1604,7 +1643,7 @@ def TranformApexData(apexGames) :
             damagePositionCategory = '3rd'
             totalTmsExceededDamage = 0  
 
-        damageProportionBanded = BandNumericField((damageDealt / squadDamageDealt) * 100, 10, 1000)
+        damageProportionBanded = BandNumericField(SafeDivide(damageDealt, squadDamageDealt) * 100, 10, 1000)
 
         myRank = apexGame[21]
         tm1Rank = apexGame[22]
@@ -1620,6 +1659,20 @@ def TranformApexData(apexGames) :
 
         rankedLobby = apexGame[31]
         rankedBaseline = apexGame[32]
+
+        lowerRankTm = ""
+        if (gameType != "Ranked") :
+            lowerRankTm = "Non-Ranked"
+        else :
+            if (tm1RankScore >= rankedBaseline and
+                tm2RankScore >= rankedBaseline) :
+                lowerRankTm = "Correct Rank TMs"
+            elif (tm1RankScore < rankedBaseline or
+                  tm2RankScore < rankedBaseline) :
+                lowerRankTm = "Lower Rank TM"
+            else :
+                lowerRankTm = "Unknown"
+
 
         lowLevelTm = apexGame[34]
 
@@ -1659,6 +1712,7 @@ def TranformApexData(apexGames) :
         tm2KillsBanded = BandNumericField(tm2Kills, 1, 7)
 
         knockdowns = apexGame[50]
+        knockdownsBanded = BandNumericField(knockdowns, 1, 7)
 
         squadKills = kills + tm1Kills + tm2Kills
 
@@ -1668,20 +1722,14 @@ def TranformApexData(apexGames) :
 
         squadDeathPosition = ''
         if (firstLegendDeath == legendSelected) :
-            squadDeathPosition = '1'
+            squadDeathPosition = '1st'
         elif (secondLegendDeath == legendSelected) :
-            squadDeathPosition = '2'
+            squadDeathPosition = '2nd'
         elif (thirdLegendDeath == legendSelected) :
-            squadDeathPosition = '3'
+            squadDeathPosition = '3rd'
 
         squadPlacement = apexGame[54]
-        squadPlacementString = f"{squadPlacement}th"
-        if (squadPlacement == 1) :
-            squadPlacementString = "1st"
-        elif (squadPlacement == 2) :
-            squadPlacementString = "2nd"
-        elif (squadPlacement == 3) :
-            squadPlacementString = "3rd"
+        squadPlacementString = StringifyNumericPosition(squadPlacement)
         
         reviveGiven = apexGame[55]
         tm1ReviveGiven = apexGame[56]
@@ -1697,7 +1745,7 @@ def TranformApexData(apexGames) :
 
         diedInitialPhase = apexGame[61]
         tm1Console = apexGame[62]
-        tm2Console =apexGame[63]
+        tm2Console = apexGame[63]
 
         primaryWeapon = apexGame[64]
         primaryWeaponType = apexGame[65]
@@ -1707,12 +1755,199 @@ def TranformApexData(apexGames) :
         secondaryWeaponType = apexGame[68]
         secondaryWeaponAmmo = apexGame[69]
 
+        for historicGame in rollingGames :
+            print("Hello")
 
-
-
+        for historicGame in rollingGames :
+            print("Hello")
         
+        fullGameData.append(curGameId)
+        fullGameData.append(curGameNumber)
+        fullGameData.append(curDatePlayedString)
+        fullGameData.append(curTimePlayedString)
+        fullGameData.append(curHourPlayed)
+        fullGameData.append(sessionNumber)
+        fullGameData.append(curSeason)
+        fullGameData.append(gameType)
+        fullGameData.append(map)
+        fullGameData.append(landingSite)
+        fullGameData.append(deathSite)
+        fullGameData.append(landedHotBinary)
+        fullGameData.append(landedHot)
+        fullGameData.append(jumpmasterLegend)
+        fullGameData.append(jumpmaster)
+        fullGameData.append(legendSelected)
+        fullGameData.append(legendSeason)
+        fullGameData.append(legendNew)
+        fullGameData.append(legendOg)
+        fullGameData.append(legendClass)
+        fullGameData.append(legendCoverGen)
+        fullGameData.append(legendDamageDeal)
+        fullGameData.append(legendFortify) 
+        fullGameData.append(legendRevive)
+        fullGameData.append(legendScan)
+        fullGameData.append(legendMovement)
+        fullGameData.append(legendTeamMovement)
+        fullGameData.append(legendSelectedFavourite)
+        fullGameData.append(legendSelectionNumber)
+        fullGameData.append(secondLegendSelected)
+        fullGameData.append(secondLegendClass)
+        fullGameData.append(secondLegendSeason)
+        fullGameData.append(secondLegendNew)
+        fullGameData.append(secondLegendOg)
+        fullGameData.append(secondLegendCoverGen)
+        fullGameData.append(secondLegendDamageDeal)
+        fullGameData.append(secondLegendFortify)
+        fullGameData.append(secondLegendRevive)
+        fullGameData.append(secondLegendScan)
+        fullGameData.append(secondLegendMovement)
+        fullGameData.append(secondLegendTeamMovement)
+        fullGameData.append(thirdLegendSelected)
+        fullGameData.append(thirdLegendClass)
+        fullGameData.append(thirdLegendSeason)
+        fullGameData.append(thirdLegendNew)
+        fullGameData.append(thirdLegendOg)
+        fullGameData.append(thirdLegendCoverGen)
+        fullGameData.append(thirdLegendDamageDeal)
+        fullGameData.append(thirdLegendFortify)
+        fullGameData.append(thirdLegendRevive)
+        fullGameData.append(thirdLegendScan)
+        fullGameData.append(thirdLegendMovement)
+        fullGameData.append(thirdLegendTeamMovement)
+        fullGameData.append(squadNewLegend)
+        fullGameData.append(squadOgLegend)
+        fullGameData.append(squadCoverGen)
+        fullGameData.append(squadDamageDealing)
+        fullGameData.append(squadFortify)
+        fullGameData.append(squadRevive)
+        fullGameData.append(squadScan)
+        fullGameData.append(squadTeamMovement)
+        fullGameData.append(jumpmasterLegend)
+        fullGameData.append(jumpmaster)
+        fullGameData.append(damageDealt)
+        fullGameData.append(tm1DamageDealt)
+        fullGameData.append(tm2DamageDealt)
+        fullGameData.append(squadDamageDealt)
+        fullGameData.append(damageDealtBandsSmall)
+        fullGameData.append(tm1DamageDealtBandsSmall)
+        fullGameData.append(tm2DamageDealtBandsSmall)
+        fullGameData.append(damageDealtBands)
+        fullGameData.append(tm1DamageDealtBands)
+        fullGameData.append(tm2DamageDealtBands)
+        fullGameData.append(damageDealtBandsLarge)
+        fullGameData.append(tm1DamageDealtBandsLarge)
+        fullGameData.append(tm2DamageDealtBandsLarge)
+        fullGameData.append(damageVsTm1)
+        fullGameData.append(damageVsTm2)
+        fullGameData.append(damageVsTeammates)
+        fullGameData.append(damagePositionSquad)
+        fullGameData.append(damagePositionCategory)
+        fullGameData.append(totalTmsExceededDamage)
+        fullGameData.append(damageProportionBanded)
+        fullGameData.append(myRank)
+        fullGameData.append(tm1Rank)
+        fullGameData.append(tm2Rank)
+        fullGameData.append(myRankScore)
+        fullGameData.append(tm1RankScore)
+        fullGameData.append(tm2RankScore)
+        fullGameData.append(myRankBroad)
+        fullGameData.append(tm1RankBroad)
+        fullGameData.append(tm2RankBroad)
+        fullGameData.append(rankedLobby)
+        fullGameData.append(rankedBaseline)
+        fullGameData.append(lowerRankTm)
+        fullGameData.append(lowLevelTm)
+        fullGameData.append(tm1RankedBadge)
+        fullGameData.append(tm2RankedBadge)
+        fullGameData.append(tm1KillsBadge)
+        fullGameData.append(tm2KillsBadge)
+        fullGameData.append(tm1KillsBadgeBanded)
+        fullGameData.append(tm2KillsBadgeBanded)
+        fullGameData.append(survivalTime)
+        fullGameData.append(survivalTimeSecs)
+        fullGameData.append(survivalTimeMins)
+        fullGameData.append(survivalTimeMinsCapped)
+        fullGameData.append(survivalTimeMinsBanded)
+        fullGameData.append(tm1SurvivalTime)
+        fullGameData.append(tm1SurvivalTimeSecs)
+        fullGameData.append(tm1SurvivalTimeMins)
+        fullGameData.append(tm1SurvivalTimeMinsCapped)
+        fullGameData.append(tm1SurvivalTimeMinsBanded)
+        fullGameData.append(tm2SurvivalTime)
+        fullGameData.append(tm2SurvivalTimeSecs)
+        fullGameData.append(tm2SurvivalTimeMins)
+        fullGameData.append(tm2SurvivalTimeMinsCapped)
+        fullGameData.append(tm2SurvivalTimeMinsBanded)
+        fullGameData.append(kills)
+        fullGameData.append(tm1Kills)
+        fullGameData.append(tm2Kills)
+        fullGameData.append(killsBanded)
+        fullGameData.append(tm1KillsBanded)
+        fullGameData.append(tm2KillsBanded)
+        fullGameData.append(knockdowns)
+        fullGameData.append(knockdownsBanded)
+        fullGameData.append(squadKills)
+        fullGameData.append(firstLegendDeath)
+        fullGameData.append(secondLegendDeath)
+        fullGameData.append(thirdLegendDeath)
+        fullGameData.append(squadDeathPosition)
+        fullGameData.append(squadPlacement)
+        fullGameData.append(squadPlacementString)
+        fullGameData.append(reviveGiven)
+        fullGameData.append(tm1ReviveGiven)
+        fullGameData.append(tm2ReviveGiven)
+        fullGameData.append(squadReviveGiven)
+        fullGameData.append(respawnGiven)
+        fullGameData.append(tm1RespawnGiven)
+        fullGameData.append(tm2RespawnGiven)
+        fullGameData.append(squadRespawnGiven)
+        fullGameData.append(squadResRev)
+        fullGameData.append(diedInitialPhase)
+        fullGameData.append(tm1Console)
+        fullGameData.append(tm2Console)
+        fullGameData.append(primaryWeapon)
+        fullGameData.append(primaryWeaponAmmo)
+        fullGameData.append(primaryWeaponType)
+        fullGameData.append(secondaryWeapon)
+        fullGameData.append(secondaryWeaponAmmo)
+        fullGameData.append(secondaryWeaponType)
 
 
+
+def GetLegendNewOld(season, legendSeason, newThreshold) :
+    if ((season - legendSeason) <= newThreshold) :
+        return "New Legend"
+    else :
+        return "Old Legend"
+
+def GetSquadNewLegend(season, legendSeason, tm1LegendSeason, tm2LegendSeason, newThreshold) :
+    if ((season - legendSeason) <= newThreshold or 
+        (season - tm1LegendSeason) <= newThreshold or 
+        (season - tm2LegendSeason) <= newThreshold) :
+        return "New Legend Squad"
+    else :
+        return "No New Legend Squad"
+    
+def GetOgLegend(legendSeason) :
+    if (legendSeason == 0) :
+        return "OG-Legend"
+    else :
+        return "Non OG-Legend"
+    
+def GetSquadOgLegend(legendSeason, tm1LegendSeason, tm2LegendSeason) :
+    if (legendSeason == 0 or
+        tm1LegendSeason == 0 or
+        tm2LegendSeason == 0) :
+        return "Squad OG-Legend"
+    else :
+        return "No OG-Legend"
+
+def GetFavouriteLegend(legendSelected) :
+    legendLower = legendSelected.lower()
+    if (legendLower == "bangalore") :
+        return "Favourite Legend"
+    else :
+        return "Non Favourite Legend"
 
 
 def GetAbilityCoverage(hasAbility, abilityName) :
@@ -1720,6 +1955,15 @@ def GetAbilityCoverage(hasAbility, abilityName) :
         return f"Has {abilityName}"
     else :
         return f"No {abilityName}"
+
+
+def SquadAbilityCoverage(playerAbility, tm1Ability, tm2Ability, abilityName) :
+    if (playerAbility or 
+        tm1Ability or 
+        tm2Ability) :
+        return f"Squad Has {abilityName}"
+    else :
+        return f"Squad No {abilityName}"
 
 
 def BandNumericField(number, bandSize, cap) :
@@ -1735,25 +1979,33 @@ def BandNumericField(number, bandSize, cap) :
     return banded
 
 
+def SafeDivide(numerator, denominator) :
+    if (denominator == 0) :
+        return 0
+    else :
+        return (numerator / denominator)
 
 
+def StringifyNumericPosition(numericPosition) :   
+    numericSafe = safeInt(numericPosition)
+    if (numericSafe == None) :
+        return ''
 
-
-
-       
-
- 
-
-            
-
-
+    if (numericPosition == 1) :
+        return '1st'
+    elif (numericPosition == 2) :
+        return '2nd'
+    elif (numericPosition ==3) :
+        return '3rd'
+    else :
+        return f"{numericPosition}th"
 
 
 ##def BuildRankBroadDictionary(rankName, rankBaseline) :
 
 apexData = ReadApexData("ApexLegendsData.csv", 6000)
 print(" ")
-print(apexData[5000])
+print(apexData[5460])
 
 """
 apexCsv = open(fileName, "r", encoding="utf-8-sig")
