@@ -1436,10 +1436,12 @@ def TranformApexData(apexGames) :
     cleanApexGames = []
     apexGames = sorted(apexGames, key=lambda game: game[4])
     sessionNumber = 1
+    sessionId = 'SID-1'
 
     #Previous Game Logic
     rollingGames = []
     previousDateTime = None
+    firstDateTime = apexGames[0][4]
 
     for apexGame in apexGames :      
         fullGameData = []
@@ -1466,6 +1468,7 @@ def TranformApexData(apexGames) :
         if (previousDateTime != None and 
             (curDateTime - previousDateTime).total_seconds() > (60 * 60 * 4)) :
             sessionNumber += 1
+            sessionId = f"SID-{sessionNumber}"
         
         previousDateTime = curDateTime
 
@@ -1755,144 +1758,346 @@ def TranformApexData(apexGames) :
         secondaryWeaponType = apexGame[68]
         secondaryWeaponAmmo = apexGame[69]
 
-        for historicGame in rollingGames :
-            print("Hello")
+        previous14DaysTotalGames = 0
+        previous14DaysTotalTime = 0
+
+        previous14DaysAvgPlacement = 0
+        previous14DaysTop1s = 0
+        previous14DaysTop3s = 0
+        previous14DaysTop5s = 0
+
+        previous14DaysDamageDealt = 0
+        previous14Days600Dmg = 0
+        previous14Days900Dmg = 0
+        previous14Days1200Dmg = 0
+
+        previous14DaysKnockdowns = 0
+        previous14Days1Knockdowns = 0
+        previous14Days2Knockdowns = 0
+        previous14Days3Knockdowns = 0
+
+        previous14DaysKills = 0
+        previous14Days1Kills = 0
+        previous14Days2Kills = 0
+        previous14Days3Kills = 0
+
+        previous30DaysTotalGames = 0
+        previous30DaysTotalTime = 0
+
+        gameNumberSession = 1
+        previousGameTimeSession = 0
+        
+        previousPlacement = 0
+        previous1Top1 = 0
+        previous1Top3 = 0
+        previous1Top5 = 0
+
+        previousDamageDealt = 0
+        previous1600Dmg = 0
+        previous1900Dmg = 0
+        previous11200Dmg = 0
+
+        previousKnockdowns = 0
+        previous11Knockdowns = 0
+        previous12Knockdowns = 0
+        previous13Knockdowns = 0
+
+        previousKills = 0
+        previous11Kills = 0
+        previous12Kills = 0
+        previous13Kills = 0
+        
+        previous3AvgPlacement = 0
+        previous3Top1 = 0
+        previous3Top3 = 0
+        previous3Top5 = 0
+
+        previous3DamageDealt = 0
+        previous3600Dmg = 0
+        previous3900Dmg = 0
+        previous31200Dmg = 0
+       
+        previous3Kills = 0
+        previous31Kills = 0
+        previous32Kills = 0
+        previous33Kills = 0
+
+        previous3Knockdowns = 0
+        previous31Knockdowns = 0
+        previous32Knockdowns = 0
+        previous33Knockdowns = 0
+
+        previous5AvgPlacement = 0
+        previous5Top1 = 0
+        previous5Top3 = 0
+        previous5Top5 = 0
+
+        previous5DamageDealt = 0
+        previous5600Dmg = 0
+        previous5900Dmg = 0
+        previous51200Dmg = 0
+       
+        previous5Kills = 0
+        previous51Kills = 0
+        previous52Kills = 0
+        previous53Kills = 0
+        
+        previous5Knockdowns = 0
+        previous51Knockdowns = 0
+        previous52Knockdowns = 0
+        previous53Knockdowns = 0
+
+        curDateTimePlayed = apexGame[4]
+        rollingGames = FilterRollingGames(rollingGames, curGameNumber, sessionNumber, curDateTimePlayed)
 
         for historicGame in rollingGames :
-            print("Hello")
+            histGame = int(historicGame[1])
+            histSession = int(historicGame[5])
+            histDateTime = GetDateTime(historicGame[2], historicGame[3])
+
+            firstGameWithin30Days = (curDateTimePlayed - firstDateTime).days <= 30
+            firstGameWithin14Days = (curDateTimePlayed - firstDateTime).days <= 14
+            within14Days = (curDateTimePlayed - histDateTime).days <= 14
+            within30Days = (curDateTimePlayed - histDateTime).days <= 30
+            within5Games = (curGameNumber <= (histGame + 5))
+            sameSession = (sessionNumber == histSession)
+
+            if (firstGameWithin14Days) :
+
+                previous14DaysTotalGames = ''
+                previous14DaysTotalTime = ''
+
+                previous14DaysAvgPlacement = ''
+                previous14DaysTop1s = ''
+                previous14DaysTop3s = ''
+                previous14DaysTop5s = ''
+                previous14DaysDamageDealt = ''
+                previous14Days600Dmg = ''
+                previous14Days900Dmg = ''
+                previous14Days1200Dmg = ''
+                previous14DaysKills = ''
+                previous14Days1Kills = ''
+                previous14Days2Kills = ''
+                previous14Days3Kills = ''
+                previous14DaysKnockdowns = ''
+                previous14Days1Knockdowns = ''
+                previous14Days2Knockdowns = ''
+                previous14Days3Knockdowns = ''
+            
+            else :
+                if (within14Days) :
+                    previous14DaysTotalGames += 1
+                    previous14DaysTotalTime += 
+                
+                    
+
+
+            
+
         
-        fullGameData.append(curGameId)
-        fullGameData.append(curGameNumber)
-        fullGameData.append(curDatePlayedString)
-        fullGameData.append(curTimePlayedString)
-        fullGameData.append(curHourPlayed)
-        fullGameData.append(sessionNumber)
-        fullGameData.append(curSeason)
-        fullGameData.append(gameType)
-        fullGameData.append(map)
-        fullGameData.append(landingSite)
-        fullGameData.append(deathSite)
-        fullGameData.append(landedHotBinary)
-        fullGameData.append(landedHot)
-        fullGameData.append(jumpmasterLegend)
-        fullGameData.append(jumpmaster)
-        fullGameData.append(legendSelected)
-        fullGameData.append(legendSeason)
-        fullGameData.append(legendNew)
-        fullGameData.append(legendOg)
-        fullGameData.append(legendClass)
-        fullGameData.append(legendCoverGen)
-        fullGameData.append(legendDamageDeal)
-        fullGameData.append(legendFortify) 
-        fullGameData.append(legendRevive)
-        fullGameData.append(legendScan)
-        fullGameData.append(legendMovement)
-        fullGameData.append(legendTeamMovement)
-        fullGameData.append(legendSelectedFavourite)
-        fullGameData.append(legendSelectionNumber)
-        fullGameData.append(secondLegendSelected)
-        fullGameData.append(secondLegendClass)
-        fullGameData.append(secondLegendSeason)
-        fullGameData.append(secondLegendNew)
-        fullGameData.append(secondLegendOg)
-        fullGameData.append(secondLegendCoverGen)
-        fullGameData.append(secondLegendDamageDeal)
-        fullGameData.append(secondLegendFortify)
-        fullGameData.append(secondLegendRevive)
-        fullGameData.append(secondLegendScan)
-        fullGameData.append(secondLegendMovement)
-        fullGameData.append(secondLegendTeamMovement)
-        fullGameData.append(thirdLegendSelected)
-        fullGameData.append(thirdLegendClass)
-        fullGameData.append(thirdLegendSeason)
-        fullGameData.append(thirdLegendNew)
-        fullGameData.append(thirdLegendOg)
-        fullGameData.append(thirdLegendCoverGen)
-        fullGameData.append(thirdLegendDamageDeal)
-        fullGameData.append(thirdLegendFortify)
-        fullGameData.append(thirdLegendRevive)
-        fullGameData.append(thirdLegendScan)
-        fullGameData.append(thirdLegendMovement)
-        fullGameData.append(thirdLegendTeamMovement)
-        fullGameData.append(squadNewLegend)
-        fullGameData.append(squadOgLegend)
-        fullGameData.append(squadCoverGen)
-        fullGameData.append(squadDamageDealing)
-        fullGameData.append(squadFortify)
-        fullGameData.append(squadRevive)
-        fullGameData.append(squadScan)
-        fullGameData.append(squadTeamMovement)
-        fullGameData.append(jumpmasterLegend)
-        fullGameData.append(jumpmaster)
-        fullGameData.append(damageDealt)
-        fullGameData.append(tm1DamageDealt)
-        fullGameData.append(tm2DamageDealt)
-        fullGameData.append(squadDamageDealt)
-        fullGameData.append(damageDealtBandsSmall)
-        fullGameData.append(tm1DamageDealtBandsSmall)
-        fullGameData.append(tm2DamageDealtBandsSmall)
-        fullGameData.append(damageDealtBands)
-        fullGameData.append(tm1DamageDealtBands)
-        fullGameData.append(tm2DamageDealtBands)
-        fullGameData.append(damageDealtBandsLarge)
-        fullGameData.append(tm1DamageDealtBandsLarge)
-        fullGameData.append(tm2DamageDealtBandsLarge)
-        fullGameData.append(damageVsTm1)
-        fullGameData.append(damageVsTm2)
-        fullGameData.append(damageVsTeammates)
-        fullGameData.append(damagePositionSquad)
-        fullGameData.append(damagePositionCategory)
-        fullGameData.append(totalTmsExceededDamage)
-        fullGameData.append(damageProportionBanded)
-        fullGameData.append(myRank)
-        fullGameData.append(tm1Rank)
-        fullGameData.append(tm2Rank)
-        fullGameData.append(myRankScore)
-        fullGameData.append(tm1RankScore)
-        fullGameData.append(tm2RankScore)
-        fullGameData.append(myRankBroad)
-        fullGameData.append(tm1RankBroad)
-        fullGameData.append(tm2RankBroad)
-        fullGameData.append(rankedLobby)
-        fullGameData.append(rankedBaseline)
-        fullGameData.append(lowerRankTm)
-        fullGameData.append(lowLevelTm)
-        fullGameData.append(tm1RankedBadge)
-        fullGameData.append(tm2RankedBadge)
-        fullGameData.append(tm1KillsBadge)
-        fullGameData.append(tm2KillsBadge)
-        fullGameData.append(tm1KillsBadgeBanded)
-        fullGameData.append(tm2KillsBadgeBanded)
-        fullGameData.append(survivalTime)
-        fullGameData.append(survivalTimeSecs)
-        fullGameData.append(survivalTimeMins)
-        fullGameData.append(survivalTimeMinsCapped)
-        fullGameData.append(survivalTimeMinsBanded)
-        fullGameData.append(tm1SurvivalTime)
-        fullGameData.append(tm1SurvivalTimeSecs)
-        fullGameData.append(tm1SurvivalTimeMins)
-        fullGameData.append(tm1SurvivalTimeMinsCapped)
-        fullGameData.append(tm1SurvivalTimeMinsBanded)
-        fullGameData.append(tm2SurvivalTime)
-        fullGameData.append(tm2SurvivalTimeSecs)
-        fullGameData.append(tm2SurvivalTimeMins)
-        fullGameData.append(tm2SurvivalTimeMinsCapped)
-        fullGameData.append(tm2SurvivalTimeMinsBanded)
-        fullGameData.append(kills)
-        fullGameData.append(tm1Kills)
-        fullGameData.append(tm2Kills)
-        fullGameData.append(killsBanded)
-        fullGameData.append(tm1KillsBanded)
-        fullGameData.append(tm2KillsBanded)
+        fullGameData.append(curGameId) #1
+        fullGameData.append(curGameNumber) #2
+        fullGameData.append(curDatePlayedString) #3
+        fullGameData.append(curTimePlayedString) #4
+        fullGameData.append(curHourPlayed) #5
+        fullGameData.append(sessionNumber) #6
+        fullGameData.append(sessionId) #7
+        fullGameData.append(gameNumberSession) #8
+        fullGameData.append(previousGameTimeSession) #9
+        fullGameData.append(previous14DaysTotalGames) #10
+        fullGameData.append(previous14DaysTotalTime) #11
+        fullGameData.append(previous14DaysAvgPlacement) #12
+        fullGameData.append(previous14DaysTop1s) #13
+        fullGameData.append(previous14DaysTop3s) #14
+        fullGameData.append(previous14DaysTop5s) #15
+        fullGameData.append(previous14DaysDamageDealt) #16
+        fullGameData.append(previous14Days600Dmg) #17
+        fullGameData.append(previous14Days900Dmg) #18
+        fullGameData.append(previous14Days1200Dmg) #19
+        fullGameData.append(previous14DaysKills) #20
+        fullGameData.append(previous14Days1Kills) #21
+        fullGameData.append(previous14Days2Kills) #22
+        fullGameData.append(previous14Days3Kills) #23
+        fullGameData.append(previous14DaysKnockdowns) #24
+        fullGameData.append(previous14Days1Knockdowns) #25
+        fullGameData.append(previous14Days2Knockdowns) #26
+        fullGameData.append(previous14Days3Knockdowns) #27
+        fullGameData.append(previous30DaysTotalGames) #28
+        fullGameData.append(previous30DaysTotalTime) #29
+        fullGameData.append(curSeason) #30
+        fullGameData.append(gameType) #31
+        fullGameData.append(map) #32
+        fullGameData.append(landingSite) #33
+        fullGameData.append(deathSite) #34
+        fullGameData.append(landedHotBinary) #35
+        fullGameData.append(landedHot) #36
+        fullGameData.append(jumpmasterLegend) #37
+        fullGameData.append(jumpmaster) #38
+        fullGameData.append(legendSelected) #39
+        fullGameData.append(legendSeason) #40
+        fullGameData.append(legendNew) #41
+        fullGameData.append(legendOg) #42
+        fullGameData.append(legendClass) #43
+        fullGameData.append(legendCoverGen) #44
+        fullGameData.append(legendDamageDeal) #45
+        fullGameData.append(legendFortify) #46
+        fullGameData.append(legendRevive) #47
+        fullGameData.append(legendScan) #48
+        fullGameData.append(legendMovement) #49
+        fullGameData.append(legendTeamMovement) #50
+        fullGameData.append(legendSelectedFavourite) #51
+        fullGameData.append(legendSelectionNumber) #52
+        fullGameData.append(secondLegendSelected) #53
+        fullGameData.append(secondLegendClass) #54
+        fullGameData.append(secondLegendSeason) #55
+        fullGameData.append(secondLegendNew) #56
+        fullGameData.append(secondLegendOg) #57
+        fullGameData.append(secondLegendCoverGen) #58
+        fullGameData.append(secondLegendDamageDeal) #59
+        fullGameData.append(secondLegendFortify) #60
+        fullGameData.append(secondLegendRevive) #61
+        fullGameData.append(secondLegendScan) #62
+        fullGameData.append(secondLegendMovement) #63
+        fullGameData.append(secondLegendTeamMovement) #64
+        fullGameData.append(thirdLegendSelected) #65
+        fullGameData.append(thirdLegendClass) #66
+        fullGameData.append(thirdLegendSeason) #67
+        fullGameData.append(thirdLegendNew) #68
+        fullGameData.append(thirdLegendOg) #69
+        fullGameData.append(thirdLegendCoverGen) #70
+        fullGameData.append(thirdLegendDamageDeal) #71
+        fullGameData.append(thirdLegendFortify) #72
+        fullGameData.append(thirdLegendRevive) #73
+        fullGameData.append(thirdLegendScan) #74
+        fullGameData.append(thirdLegendMovement) #75
+        fullGameData.append(thirdLegendTeamMovement) #76
+        fullGameData.append(squadNewLegend) #77
+        fullGameData.append(squadOgLegend) #78
+        fullGameData.append(squadCoverGen) #79
+        fullGameData.append(squadDamageDealing) #80
+        fullGameData.append(squadFortify) #81
+        fullGameData.append(squadRevive) #82
+        fullGameData.append(squadScan) #83
+        fullGameData.append(squadTeamMovement) #84
+        fullGameData.append(jumpmasterLegend) #85
+        fullGameData.append(jumpmaster) #86
+        fullGameData.append(damageDealt) #87
+        fullGameData.append(tm1DamageDealt) #88
+        fullGameData.append(tm2DamageDealt) #89
+        fullGameData.append(squadDamageDealt) #90
+        fullGameData.append(damageDealtBandsSmall) #91
+        fullGameData.append(tm1DamageDealtBandsSmall) #92
+        fullGameData.append(tm2DamageDealtBandsSmall) #93
+        fullGameData.append(damageDealtBands) #94
+        fullGameData.append(tm1DamageDealtBands) #95
+        fullGameData.append(tm2DamageDealtBands) #96
+        fullGameData.append(damageDealtBandsLarge) #97
+        fullGameData.append(tm1DamageDealtBandsLarge) #98
+        fullGameData.append(tm2DamageDealtBandsLarge) #99
+        fullGameData.append(damageVsTm1) #100
+        fullGameData.append(damageVsTm2) #101
+        fullGameData.append(damageVsTeammates) #102
+        fullGameData.append(damagePositionSquad) #103
+        fullGameData.append(damagePositionCategory) #104
+        fullGameData.append(totalTmsExceededDamage) #105
+        fullGameData.append(damageProportionBanded) #106
+        fullGameData.append(previousDamageDealt) #107
+        fullGameData.append(previous1600Dmg) #108
+        fullGameData.append(previous1900Dmg) #109
+        fullGameData.append(previous11200Dmg) #110
+        fullGameData.append(previous3DamageDealt) #111
+        fullGameData.append(previous3600Dmg) #112
+        fullGameData.append(previous3900Dmg) #113
+        fullGameData.append(previous31200Dmg) #114
+        fullGameData.append(previous5DamageDealt) #115
+        fullGameData.append(previous5600Dmg) #116
+        fullGameData.append(previous5900Dmg) #117
+        fullGameData.append(previous51200Dmg) #118
+        fullGameData.append(myRank) #119
+        fullGameData.append(tm1Rank) #120
+        fullGameData.append(tm2Rank) #121
+        fullGameData.append(myRankScore) #122
+        fullGameData.append(tm1RankScore) #123
+        fullGameData.append(tm2RankScore) #124
+        fullGameData.append(myRankBroad) #125
+        fullGameData.append(tm1RankBroad) #126
+        fullGameData.append(tm2RankBroad) #127
+        fullGameData.append(rankedLobby) #128
+        fullGameData.append(rankedBaseline) #129
+        fullGameData.append(lowerRankTm) #130
+        fullGameData.append(lowLevelTm) #131
+        fullGameData.append(tm1RankedBadge) #132
+        fullGameData.append(tm2RankedBadge) #133
+        fullGameData.append(tm1KillsBadge) #134
+        fullGameData.append(tm2KillsBadge) #135
+        fullGameData.append(tm1KillsBadgeBanded) #136
+        fullGameData.append(tm2KillsBadgeBanded) #137
+        fullGameData.append(survivalTime) #138
+        fullGameData.append(survivalTimeSecs) #139
+        fullGameData.append(survivalTimeMins) #140
+        fullGameData.append(survivalTimeMinsCapped) #141
+        fullGameData.append(survivalTimeMinsBanded) #142
+        fullGameData.append(tm1SurvivalTime) #143
+        fullGameData.append(tm1SurvivalTimeSecs) #144
+        fullGameData.append(tm1SurvivalTimeMins) #145
+        fullGameData.append(tm1SurvivalTimeMinsCapped) #146
+        fullGameData.append(tm1SurvivalTimeMinsBanded) #147
+        fullGameData.append(tm2SurvivalTime) #148
+        fullGameData.append(tm2SurvivalTimeSecs) #149
+        fullGameData.append(tm2SurvivalTimeMins) #150
+        fullGameData.append(tm2SurvivalTimeMinsCapped) #151
+        fullGameData.append(tm2SurvivalTimeMinsBanded) #152
+        fullGameData.append(kills) #153
+        fullGameData.append(tm1Kills) #154
+        fullGameData.append(tm2Kills) #155
+        fullGameData.append(squadKills) #156
+        fullGameData.append(killsBanded) #157
+        fullGameData.append(tm1KillsBanded) #158
+        fullGameData.append(tm2KillsBanded) #159
+        fullGameData.append(previousKills) #160
+        fullGameData.append(previous11Kills) #161
+        fullGameData.append(previous12Kills) #162
+        fullGameData.append(previous13Kills) #163
+        fullGameData.append(previous3Kills) #164
+        fullGameData.append(previous31Kills) #165
+        fullGameData.append(previous32Kills) #166
+        fullGameData.append(previous33Kills) #167
+        fullGameData.append(previous5Kills)
+        fullGameData.append(previous51Kills)
+        fullGameData.append(previous52Kills)
+        fullGameData.append(previous53Kills)
         fullGameData.append(knockdowns)
         fullGameData.append(knockdownsBanded)
-        fullGameData.append(squadKills)
+        fullGameData.append(previousKnockdowns)
+        fullGameData.append(previous11Knockdowns)
+        fullGameData.append(previous12Knockdowns)
+        fullGameData.append(previous13Knockdowns)
+        fullGameData.append(previous3Knockdowns)
+        fullGameData.append(previous31Knockdowns)
+        fullGameData.append(previous32Knockdowns)
+        fullGameData.append(previous33Knockdowns)
+        fullGameData.append(previous5Knockdowns)
+        fullGameData.append(previous51Knockdowns)
+        fullGameData.append(previous52Knockdowns)
+        fullGameData.append(previous53Knockdowns)
         fullGameData.append(firstLegendDeath)
         fullGameData.append(secondLegendDeath)
         fullGameData.append(thirdLegendDeath)
         fullGameData.append(squadDeathPosition)
         fullGameData.append(squadPlacement)
         fullGameData.append(squadPlacementString)
+        fullGameData.append(previousPlacement)
+        fullGameData.append(previous1Top1)
+        fullGameData.append(previous1Top3)
+        fullGameData.append(previous1Top5)
+        fullGameData.append(previous3AvgPlacement)
+        fullGameData.append(previous3Top1)
+        fullGameData.append(previous3Top3)
+        fullGameData.append(previous3Top5)
+        fullGameData.append(previous5AvgPlacement)
+        fullGameData.append(previous5Top1)
+        fullGameData.append(previous5Top3)
+        fullGameData.append(previous5Top5)
         fullGameData.append(reviveGiven)
         fullGameData.append(tm1ReviveGiven)
         fullGameData.append(tm2ReviveGiven)
@@ -1999,13 +2204,49 @@ def StringifyNumericPosition(numericPosition) :
         return '3rd'
     else :
         return f"{numericPosition}th"
+    
+def GetDateTime(dateStr, timeStr) :
+    return datetime.strptime(
+                f"{dateStr} {timeStr}",
+                "%Y-%m-%d %H:%M:00"
+            )
 
+def FilterRollingGames(rollingGames, curGameNumber, curSessionNumber, curDateTimePlayed) :
+    filteredGames = []
+    for ag in rollingGames :
+        
+        try :
+        
+            gameNumber = int(ag[1])
+            dateStr = ag[2]
+            timeStr = ag[3]
+            sessionNumber = int(ag[5])
+
+            playedAt = GetDateTime(dateStr, timeStr)
+            withinLast5Games = gameNumber >= (curGameNumber - 5)
+            sameSession = sessionNumber == curSessionNumber
+            within30Days = (curDateTimePlayed - playedAt).days <= 30
+
+            if (withinLast5Games or 
+                sameSession or
+                within30Days) :
+                filteredGames.append(ag)
+
+        except Exception as e:
+            print(f"Error translating filtered game: {e}")
+            print(f"Offending record: {ag}")
+
+    return filteredGames
+
+#Within 5 Games
+#Within 30 Days
+#Within Same Session
 
 ##def BuildRankBroadDictionary(rankName, rankBaseline) :
 
-apexData = ReadApexData("ApexLegendsData.csv", 6000)
+apexData = ReadApexData("ApexLegendsData.csv", 4000)
 print(" ")
-print(apexData[5460])
+print(apexData[3999])
 
 """
 apexCsv = open(fileName, "r", encoding="utf-8-sig")
