@@ -660,11 +660,17 @@ def ReadApexData(fileName, numberRecs):
                 rowCount += 1
     except Exception as e:
         print(f"There was an error retrieving the data: {e}")
-        return apexData
-    
+           
     print(f"Sucessfully retrieved {rowCount} records from the Apex Dataset")
     apexCsv.close()
-    return apexData
+    cleanApexData = []
+   
+    try :
+        cleanApexData = TransformApexData(apexData)
+    except Exception as e:
+        print(f"There was an error transforming the data: {e}")
+
+    return cleanApexData
 
 def GetCharacterDetail(characterName) :
     
@@ -1432,7 +1438,7 @@ def GetWeaponDictionary():
     
     return season_dict
 
-def TranformApexData(apexGames) :
+def TransformApexData(apexGames) :
     cleanApexGames = []
     apexGames = sorted(apexGames, key=lambda game: game[4])
     sessionNumber = 1
@@ -1447,22 +1453,11 @@ def TranformApexData(apexGames) :
         fullGameData = []
         curGameId = apexGame[0]
         curGameNumber = apexGame[1]
-        curDatePlayedString = datetime.strptime(apexGame[2], '%Y/%m/%d')
+        curDatePlayedString = apexGame[2].strftime('%Y/%m/%d')
         
         curHourPlayed = apexGame[3].hour
-        curTimePeriodPlayed = ''
-        if (curHourPlayed <= 5) :
-            curTimePeriodPlayed = 'Evening'
-        elif (curHourPlayed <= 11) :
-            curTimePeriodPlayed = 'Morning'
-        elif (curHourPlayed <= 17) :
-            curTimePeriodPlayed = 'Afternoon'
-        elif (curHourPlayed <= 23) :
-            curTimePeriodPlayed = 'Evening'
-        else :
-            curTimePeriodPlayed = 'Unknown'
 
-        curTimePlayedString = datetime.strptime(apexGame[3], '%H:%M')
+        curTimePlayedString = apexGame[3].strftime('%H:%M')
         curDateTime = apexGame[4]
 
         if (previousDateTime != None and 
@@ -1761,6 +1756,7 @@ def TranformApexData(apexGames) :
         previous14DaysTotalGames = 0
         previous14DaysTotalTime = 0
 
+        previous14DaysTotalPlacement = 0
         previous14DaysAvgPlacement = 0
         previous14DaysTop1s = 0
         previous14DaysTop3s = 0
@@ -1807,6 +1803,7 @@ def TranformApexData(apexGames) :
         previous12Kills = 0
         previous13Kills = 0
         
+        previous3Placement = 0
         previous3AvgPlacement = 0
         previous3Top1 = 0
         previous3Top3 = 0
@@ -1827,6 +1824,7 @@ def TranformApexData(apexGames) :
         previous32Knockdowns = 0
         previous33Knockdowns = 0
 
+        previous5Placement = 0
         previous5AvgPlacement = 0
         previous5Top1 = 0
         previous5Top3 = 0
@@ -1855,13 +1853,27 @@ def TranformApexData(apexGames) :
             histSession = int(historicGame[5])
             histDateTime = GetDateTime(historicGame[2], historicGame[3])
 
+            histSurvivalSecs = int(historicGame[138])
+            histSquadPlacement = int(historicGame[189])
+            histDamageDealt = int(historicGame[86])
+            histKills = int(historicGame[152])
+            histKnockdowns = int(historicGame[171])
+            
             firstGameWithin30Days = (curDateTimePlayed - firstDateTime).days <= 30
             firstGameWithin14Days = (curDateTimePlayed - firstDateTime).days <= 14
             within14Days = (curDateTimePlayed - histDateTime).days <= 14
             within30Days = (curDateTimePlayed - histDateTime).days <= 30
-            within5Games = (curGameNumber <= (histGame + 5))
+            within5Games = (curGameNumber >= (histGame + 5))
+            within3Games = (curGameNumber >= (histGame + 3))
+            within1Games = (curGameNumber >= (histGame + 1))
             sameSession = (sessionNumber == histSession)
 
+            #Same Session
+            if (sameSession) :
+                gameNumberSession += 1
+                previousGameTimeSession += histSurvivalSecs
+
+            #14 Days
             if (firstGameWithin14Days) :
 
                 previous14DaysTotalGames = ''
@@ -1887,13 +1899,219 @@ def TranformApexData(apexGames) :
             else :
                 if (within14Days) :
                     previous14DaysTotalGames += 1
-                    previous14DaysTotalTime += 
-                
+                    previous14DaysTotalTime += histSurvivalSecs
                     
+                    previous14DaysTotalPlacement += histSquadPlacement
+                    previous14DaysAvgPlacement = SafeDivide(previous14DaysTotalPlacement, previous14DaysTotalGames)
+                    
+                    if (histSquadPlacement <= 5) :
+                        previous14DaysTop5s += 1
+                        if (histSquadPlacement <= 3) :
+                            previous14DaysTop3s += 1
+                            if (histSquadPlacement <= 1) :
+                                previous14DaysTop1s += 1
+                    
+                    previous14DaysDamageDealt += histDamageDealt
+                    if (histDamageDealt >= 600) :
+                        previous14Days600Dmg += 1
+                        if (histDamageDealt >= 900) :
+                            previous14Days900Dmg += 1
+                            if (histDamageDealt >= 1200) :
+                                previous14Days1200Dmg += 1
 
+                    previous14DaysKills += histKills
+                    if (histKills >= 1) :
+                        previous14Days1Kills += 1
+                        if (histKills >= 2) :
+                            previous14Days2Kills += 1
+                            if (histKills >= 3) :
+                                previous14Days3Kills += 1
 
-            
+                    previous14DaysKnockdowns += histKnockdowns
+                    if (histKnockdowns >= 1) :
+                        previous14Days1Knockdowns += 1
+                        if (histKnockdowns >= 2) :
+                            previous14Days2Knockdowns += 1
+                            if (histKnockdowns >= 3) :
+                                previous14Days3Knockdowns += 1
 
+            # 30 Days
+            if (firstGameWithin30Days) :
+                previous30DaysTotalGames = ''
+                previous30DaysTotalTime = ''
+
+            else :
+                if (within30Days) :
+                    previous30DaysTotalGames += 1
+                    previous30DaysTotalTime += histSurvivalSecs
+
+            # Previous 1 Games
+            if (curGameNumber <= 1) :
+                previousPlacement = ''
+                previous1Top5 = ''
+                previous1Top3 = ''
+                previous1Top3 = ''
+
+                previousDamageDealt = ''
+                previous1600Dmg = ''
+                previous1900Dmg = ''
+                previous11200Dmg = ''
+
+                previousKills = ''
+                previous11Kills = ''
+                previous12Kills = ''
+                previous13Kills = ''
+
+                previousKnockdowns = ''
+                previous11Knockdowns = ''
+                previous12Knockdowns = ''
+                previous13Knockdowns = ''
+
+            else :
+                if (within1Games) : 
+                    previousPlacement = histSquadPlacement
+                    if (histSquadPlacement <= 5) :
+                        previous1Top5 += 1
+                        if (histSquadPlacement <= 3) :
+                            previous1Top3 += 1
+                            if (histSquadPlacement <= 1) :
+                                previous1Top1 += 1
+
+                    previousDamageDealt = histDamageDealt
+                    if (histDamageDealt >= 600) :
+                        previous1600Dmg += 1
+                        if (histDamageDealt >= 900) :
+                            previous1900Dmg += 1
+                            if (histDamageDealt >= 1200)  :
+                                previous11200Dmg += 1
+
+                    previousKills = histKills
+                    if (histKills >= 1) :
+                        previous11Kills += 1
+                        if (histKills >= 2) :
+                            previous12Kills += 1
+                            if (histKills >= 3) :
+                                previous13Kills += 1
+
+                    previousKnockdowns = histKnockdowns
+                    if (histKnockdowns >= 1) :
+                        previous11Knockdowns += 1
+                        if (histKnockdowns >= 2) :
+                            previous12Knockdowns += 1
+                            if (histKnockdowns >= 3) :
+                                previous13Knockdowns += 1                
+
+            if (curGameNumber <= 3) :
+                previous3AvgPlacement = ''
+                previous3Top5 = ''
+                previous3Top3 = ''
+                previous3Top3 = ''
+
+                previous3DamageDealt = ''
+                previous3600Dmg = ''
+                previous3900Dmg = ''
+                previous31200Dmg = ''
+
+                previous3Kills = ''
+                previous31Kills = ''
+                previous32Kills = ''
+                previous33Kills = ''
+
+                previous3Knockdowns = ''
+                previous31Knockdowns = ''
+                previous32Knockdowns = ''
+                previous33Knockdowns = ''
+
+            else :
+                if (within3Games) : 
+                    previous3Placement += histSquadPlacement
+                    previous3AvgPlacement = math.floor(previous3Placement / 3)
+                    if (histSquadPlacement <= 5) :
+                        previous3Top5 += 1
+                        if (histSquadPlacement <= 3) :
+                            previous3Top3 += 1
+                            if (histSquadPlacement <= 1) :
+                                previous3Top1 += 1
+
+                    previous3DamageDealt += histDamageDealt
+                    if (histDamageDealt >= 600) :
+                        previous3600Dmg += 1
+                        if (histDamageDealt >= 900) :
+                            previous3900Dmg += 1
+                            if (histDamageDealt >= 1200)  :
+                                previous31200Dmg += 1
+
+                    previous3Kills += histKills
+                    if (histKills >= 1) :
+                        previous31Kills += 1
+                        if (histKills >= 2) :
+                            previous32Kills += 1
+                            if (histKills >= 3) :
+                                previous33Kills += 1
+
+                    previous3Knockdowns += histKnockdowns
+                    if (histKnockdowns >= 1) :
+                        previous31Knockdowns += 1
+                        if (histKnockdowns >= 2) :
+                            previous32Knockdowns += 1
+                            if (histKnockdowns >= 3) :
+                                previous33Knockdowns += 1             
+
+            if (curGameNumber <= 5) :
+                previous5AvgPlacement = ''
+                previous5Top5 = ''
+                previous5Top3 = ''
+                previous5Top3 = ''
+
+                previous5DamageDealt = ''
+                previous5600Dmg = ''
+                previous5900Dmg = ''
+                previous51200Dmg = ''
+
+                previous5Kills = ''
+                previous51Kills = ''
+                previous52Kills = ''
+                previous53Kills = ''
+
+                previous5Knockdowns = ''
+                previous51Knockdowns = ''
+                previous52Knockdowns = ''
+                previous53Knockdowns = ''
+
+            else :
+                if (within5Games) : 
+                    previous5Placement += histSquadPlacement
+                    previous5AvgPlacement = math.floor(previous5Placement / 5)
+                    if (histSquadPlacement <= 5) :
+                        previous5Top5 += 1
+                        if (histSquadPlacement <= 3) :
+                            previous5Top3 += 1
+                            if (histSquadPlacement <= 1) :
+                                previous5Top1 += 1
+
+                    previous5DamageDealt += histDamageDealt
+                    if (histDamageDealt >= 600) :
+                        previous5600Dmg += 1
+                        if (histDamageDealt >= 900) :
+                            previous5900Dmg += 1
+                            if (histDamageDealt >= 1200)  :
+                                previous51200Dmg += 1
+
+                    previous5Kills += histKills
+                    if (histKills >= 1) :
+                        previous51Kills += 1
+                        if (histKills >= 2) :
+                            previous52Kills += 1
+                            if (histKills >= 3) :
+                                previous53Kills += 1
+
+                    previous5Knockdowns += histKnockdowns
+                    if (histKnockdowns >= 1) :
+                        previous51Knockdowns += 1
+                        if (histKnockdowns >= 2) :
+                            previous52Knockdowns += 1
+                            if (histKnockdowns >= 3) :
+                                previous53Knockdowns += 1     
         
         fullGameData.append(curGameId) #1
         fullGameData.append(curGameNumber) #2
@@ -2062,60 +2280,65 @@ def TranformApexData(apexGames) :
         fullGameData.append(previous31Kills) #165
         fullGameData.append(previous32Kills) #166
         fullGameData.append(previous33Kills) #167
-        fullGameData.append(previous5Kills)
-        fullGameData.append(previous51Kills)
-        fullGameData.append(previous52Kills)
-        fullGameData.append(previous53Kills)
-        fullGameData.append(knockdowns)
-        fullGameData.append(knockdownsBanded)
-        fullGameData.append(previousKnockdowns)
-        fullGameData.append(previous11Knockdowns)
-        fullGameData.append(previous12Knockdowns)
-        fullGameData.append(previous13Knockdowns)
-        fullGameData.append(previous3Knockdowns)
-        fullGameData.append(previous31Knockdowns)
-        fullGameData.append(previous32Knockdowns)
-        fullGameData.append(previous33Knockdowns)
-        fullGameData.append(previous5Knockdowns)
-        fullGameData.append(previous51Knockdowns)
-        fullGameData.append(previous52Knockdowns)
-        fullGameData.append(previous53Knockdowns)
-        fullGameData.append(firstLegendDeath)
-        fullGameData.append(secondLegendDeath)
-        fullGameData.append(thirdLegendDeath)
-        fullGameData.append(squadDeathPosition)
-        fullGameData.append(squadPlacement)
-        fullGameData.append(squadPlacementString)
-        fullGameData.append(previousPlacement)
-        fullGameData.append(previous1Top1)
-        fullGameData.append(previous1Top3)
-        fullGameData.append(previous1Top5)
-        fullGameData.append(previous3AvgPlacement)
-        fullGameData.append(previous3Top1)
-        fullGameData.append(previous3Top3)
-        fullGameData.append(previous3Top5)
-        fullGameData.append(previous5AvgPlacement)
-        fullGameData.append(previous5Top1)
-        fullGameData.append(previous5Top3)
-        fullGameData.append(previous5Top5)
-        fullGameData.append(reviveGiven)
-        fullGameData.append(tm1ReviveGiven)
-        fullGameData.append(tm2ReviveGiven)
-        fullGameData.append(squadReviveGiven)
-        fullGameData.append(respawnGiven)
-        fullGameData.append(tm1RespawnGiven)
-        fullGameData.append(tm2RespawnGiven)
-        fullGameData.append(squadRespawnGiven)
-        fullGameData.append(squadResRev)
-        fullGameData.append(diedInitialPhase)
-        fullGameData.append(tm1Console)
-        fullGameData.append(tm2Console)
-        fullGameData.append(primaryWeapon)
-        fullGameData.append(primaryWeaponAmmo)
-        fullGameData.append(primaryWeaponType)
-        fullGameData.append(secondaryWeapon)
-        fullGameData.append(secondaryWeaponAmmo)
-        fullGameData.append(secondaryWeaponType)
+        fullGameData.append(previous5Kills) #168
+        fullGameData.append(previous51Kills) #169
+        fullGameData.append(previous52Kills) #170
+        fullGameData.append(previous53Kills) #171
+        fullGameData.append(knockdowns) #172
+        fullGameData.append(knockdownsBanded) #173
+        fullGameData.append(previousKnockdowns) #174
+        fullGameData.append(previous11Knockdowns) #175
+        fullGameData.append(previous12Knockdowns) #176
+        fullGameData.append(previous13Knockdowns) #177
+        fullGameData.append(previous3Knockdowns) #178
+        fullGameData.append(previous31Knockdowns) #179
+        fullGameData.append(previous32Knockdowns) #180
+        fullGameData.append(previous33Knockdowns) #181
+        fullGameData.append(previous5Knockdowns) #182
+        fullGameData.append(previous51Knockdowns) #183
+        fullGameData.append(previous52Knockdowns) #184
+        fullGameData.append(previous53Knockdowns) #185
+        fullGameData.append(firstLegendDeath) #186
+        fullGameData.append(secondLegendDeath) #187
+        fullGameData.append(thirdLegendDeath) #188
+        fullGameData.append(squadDeathPosition) #189
+        fullGameData.append(squadPlacement) #190
+        fullGameData.append(squadPlacementString) #191
+        fullGameData.append(previousPlacement) #192
+        fullGameData.append(previous1Top1) #193
+        fullGameData.append(previous1Top3) #193
+        fullGameData.append(previous1Top5) #194
+        fullGameData.append(previous3AvgPlacement) #195
+        fullGameData.append(previous3Top1) #196
+        fullGameData.append(previous3Top3) #197
+        fullGameData.append(previous3Top5) #198
+        fullGameData.append(previous5AvgPlacement) #199
+        fullGameData.append(previous5Top1) #200
+        fullGameData.append(previous5Top3) #201
+        fullGameData.append(previous5Top5) #202
+        fullGameData.append(reviveGiven) #203
+        fullGameData.append(tm1ReviveGiven) #204
+        fullGameData.append(tm2ReviveGiven) #205
+        fullGameData.append(squadReviveGiven) #206
+        fullGameData.append(respawnGiven) #207
+        fullGameData.append(tm1RespawnGiven) #208
+        fullGameData.append(tm2RespawnGiven) #209
+        fullGameData.append(squadRespawnGiven) #210
+        fullGameData.append(squadResRev) #211
+        fullGameData.append(diedInitialPhase) #212
+        fullGameData.append(tm1Console) #213
+        fullGameData.append(tm2Console) #214
+        fullGameData.append(primaryWeapon) #215
+        fullGameData.append(primaryWeaponAmmo) #216
+        fullGameData.append(primaryWeaponType) #217
+        fullGameData.append(secondaryWeapon) #218
+        fullGameData.append(secondaryWeaponAmmo) #219
+        fullGameData.append(secondaryWeaponType) #220
+
+        rollingGames.append(fullGameData)
+        cleanApexGames.append(fullGameData)
+
+    return cleanApexGames
 
 
 
@@ -2208,7 +2431,7 @@ def StringifyNumericPosition(numericPosition) :
 def GetDateTime(dateStr, timeStr) :
     return datetime.strptime(
                 f"{dateStr} {timeStr}",
-                "%Y-%m-%d %H:%M:00"
+                "%Y/%m/%d %H:%M"
             )
 
 def FilterRollingGames(rollingGames, curGameNumber, curSessionNumber, curDateTimePlayed) :
