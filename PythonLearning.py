@@ -654,7 +654,7 @@ def ReadApexData(fileName, numberRecs):
             if (numberRecs != None and i > (numberRecs + 1)):
                 break
 
-            if (i > 1) :
+            if (i > 0) :
                 apexGame = ReadApexRow(row, lateAdditions, weaponDict)
                 apexData.append(apexGame)
                 rowCount += 1
@@ -1240,7 +1240,8 @@ def ReadApexRow(apexRow, lateAdditions, weaponDict) :
     
 def safeInt(string) :
     try :
-        return int(string)
+        clean_string = str(string).replace(",", "").strip()
+        return int(clean_string)
     except: 
         return None
     
@@ -1456,9 +1457,22 @@ def TransformApexData(apexGames) :
         curDatePlayedString = apexGame[2].strftime('%Y/%m/%d')
         
         curHourPlayed = apexGame[3].hour
+        timePeriodPlayed = ''
+        if (curHourPlayed <= 4) :
+            timePeriodPlayed = 'Evening'
+        elif (curHourPlayed <= 11) :
+            timePeriodPlayed = 'Morning'
+        elif (curHourPlayed <= 17) :
+            timePeriodPlayed = 'Afternoon'
+        elif (curHourPlayed > 17) :
+            timePeriodPlayed = 'Evening'  
+        else :
+            timePeriodPlayed = 'Unknown'          
+
 
         curTimePlayedString = apexGame[3].strftime('%H:%M')
         curDateTime = apexGame[4]
+        curDateTimeString = curDateTime.strftime("%Y/%m/%d %H:%M")
 
         if (previousDateTime != None and 
             (curDateTime - previousDateTime).total_seconds() > (60 * 60 * 4)) :
@@ -1606,7 +1620,6 @@ def TransformApexData(apexGames) :
         damageDealt = apexGame[18]
         tm1DamageDealt = apexGame[19]
         tm2DamageDealt = apexGame[20]
-
         squadDamageDealt = damageDealt + tm1DamageDealt + tm2DamageDealt
 
         damageDealtBandsSmall = BandNumericField(damageDealt, 50, 3000)
@@ -1662,8 +1675,12 @@ def TransformApexData(apexGames) :
         if (gameType != "Ranked") :
             lowerRankTm = "Non-Ranked"
         else :
-            if (tm1RankScore >= rankedBaseline and
-                tm2RankScore >= rankedBaseline) :
+            if (rankedBaseline == None) :
+                lowerRankTm = "Unknown"
+            elif (tm1RankScore == None or tm2RankScore == None) :
+                lowerRankTm = "Unknown"
+            elif (tm1RankScore >= rankedBaseline and
+                  tm2RankScore >= rankedBaseline) :
                 lowerRankTm = "Correct Rank TMs"
             elif (tm1RankScore < rankedBaseline or
                   tm2RankScore < rankedBaseline) :
@@ -2117,9 +2134,11 @@ def TransformApexData(apexGames) :
         fullGameData.append(curGameNumber) #2
         fullGameData.append(curDatePlayedString) #3
         fullGameData.append(curTimePlayedString) #4
-        fullGameData.append(curHourPlayed) #5
-        fullGameData.append(sessionNumber) #6
-        fullGameData.append(sessionId) #7
+        fullGameData.append(curDateTimeString) #5
+        fullGameData.append(curHourPlayed) #6
+        fullGameData.append(timePeriodPlayed) #7
+        fullGameData.append(sessionNumber) #8
+        fullGameData.append(sessionId) #9
         fullGameData.append(gameNumberSession) #8
         fullGameData.append(previousGameTimeSession) #9
         fullGameData.append(previous14DaysTotalGames) #10
@@ -2152,10 +2171,10 @@ def TransformApexData(apexGames) :
         fullGameData.append(jumpmasterLegend) #37
         fullGameData.append(jumpmaster) #38
         fullGameData.append(legendSelected) #39
-        fullGameData.append(legendSeason) #40
-        fullGameData.append(legendNew) #41
-        fullGameData.append(legendOg) #42
-        fullGameData.append(legendClass) #43
+        fullGameData.append(legendClass) #40
+        fullGameData.append(legendSeason) #41
+        fullGameData.append(legendNew) #42
+        fullGameData.append(legendOg) #43
         fullGameData.append(legendCoverGen) #44
         fullGameData.append(legendDamageDeal) #45
         fullGameData.append(legendFortify) #46
@@ -2197,34 +2216,32 @@ def TransformApexData(apexGames) :
         fullGameData.append(squadRevive) #82
         fullGameData.append(squadScan) #83
         fullGameData.append(squadTeamMovement) #84
-        fullGameData.append(jumpmasterLegend) #85
-        fullGameData.append(jumpmaster) #86
-        fullGameData.append(damageDealt) #87
-        fullGameData.append(tm1DamageDealt) #88
-        fullGameData.append(tm2DamageDealt) #89
-        fullGameData.append(squadDamageDealt) #90
-        fullGameData.append(damageDealtBandsSmall) #91
-        fullGameData.append(tm1DamageDealtBandsSmall) #92
-        fullGameData.append(tm2DamageDealtBandsSmall) #93
-        fullGameData.append(damageDealtBands) #94
-        fullGameData.append(tm1DamageDealtBands) #95
-        fullGameData.append(tm2DamageDealtBands) #96
-        fullGameData.append(damageDealtBandsLarge) #97
-        fullGameData.append(tm1DamageDealtBandsLarge) #98
-        fullGameData.append(tm2DamageDealtBandsLarge) #99
-        fullGameData.append(damageVsTm1) #100
-        fullGameData.append(damageVsTm2) #101
-        fullGameData.append(damageVsTeammates) #102
-        fullGameData.append(damagePositionSquad) #103
-        fullGameData.append(damagePositionCategory) #104
-        fullGameData.append(totalTmsExceededDamage) #105
-        fullGameData.append(damageProportionBanded) #106
-        fullGameData.append(previousDamageDealt) #107
-        fullGameData.append(previous1600Dmg) #108
-        fullGameData.append(previous1900Dmg) #109
-        fullGameData.append(previous11200Dmg) #110
-        fullGameData.append(previous3DamageDealt) #111
-        fullGameData.append(previous3600Dmg) #112
+        fullGameData.append(damageDealt) #85
+        fullGameData.append(tm1DamageDealt) #86
+        fullGameData.append(tm2DamageDealt) #87
+        fullGameData.append(squadDamageDealt) #88
+        fullGameData.append(damageDealtBandsSmall) #89
+        fullGameData.append(tm1DamageDealtBandsSmall) #90
+        fullGameData.append(tm2DamageDealtBandsSmall) #91
+        fullGameData.append(damageDealtBands) #92
+        fullGameData.append(tm1DamageDealtBands) #93
+        fullGameData.append(tm2DamageDealtBands) #94
+        fullGameData.append(damageDealtBandsLarge) #95
+        fullGameData.append(tm1DamageDealtBandsLarge) #96
+        fullGameData.append(tm2DamageDealtBandsLarge) #97
+        fullGameData.append(damageVsTm1) #98
+        fullGameData.append(damageVsTm2) #99
+        fullGameData.append(damageVsTeammates) #100
+        fullGameData.append(damagePositionSquad) #101
+        fullGameData.append(damagePositionCategory) #102
+        fullGameData.append(totalTmsExceededDamage) #103
+        fullGameData.append(damageProportionBanded) #104
+        fullGameData.append(previousDamageDealt) #105
+        fullGameData.append(previous1600Dmg) #106
+        fullGameData.append(previous1900Dmg) #107
+        fullGameData.append(previous11200Dmg) #108
+        fullGameData.append(previous3DamageDealt) #109
+        fullGameData.append(previous3600Dmg) #110
         fullGameData.append(previous3900Dmg) #113
         fullGameData.append(previous31200Dmg) #114
         fullGameData.append(previous5DamageDealt) #115
@@ -2403,7 +2420,7 @@ def BandNumericField(number, bandSize, cap) :
         return f"{cap}+"
     
     floored = math.floor(safeNumber / bandSize) * bandSize
-    banded = f"${floored} - {floored + bandSize - 1}"
+    banded = f"{floored} - {floored + bandSize - 1}"
     return banded
 
 
@@ -2461,15 +2478,113 @@ def FilterRollingGames(rollingGames, curGameNumber, curSessionNumber, curDateTim
 
     return filteredGames
 
+def WriteCleanApexData(fileName, cleanData) :
+    apexHeaders = GetCleanApexHeaders()
+    cleanData.insert(0, apexHeaders)
+    dataDump = open(f"{fileName}.csv", "w", newline="", encoding="utf-8")
+    fileWriter = csv.writer(dataDump)
+    fileWriter.writerows(cleanData)
+    dataDump.close()
+
+
+def GetCleanApexHeaders() :
+    return [
+        "Game_ID", 
+        "Game_Number", 
+        "Date_Played", 
+        "Time_Played", 
+        "Hour_Played", 
+        "Session_Number", 
+        "Session_ID", 
+        "Game_Number_Session", 
+        "Time_Played_Session", 
+        "Previous14_Total_Games", 
+        "Previous14_Time_Played",
+        "Previous14_Avg_Placement", 
+        "Previous14_Top1s_Games", 
+        "Previous14_Top3s_Games", 
+        "Previous14_Top5s_Games", 
+        "Previous14_DamageDealt", 
+        "Previous14_600Dmg_Games", 
+        "Previous14_900Dmg_Games", 
+        "Previous14_1200Dmg_Games", 
+        "Previous14_Kills", 
+        "Previous14_1Kills_Games", 
+        "Previous14_2Kills_Games", 
+        "Previous14_3Kills_Games", 
+        "Previous14_Knockdowns", 
+        "Previous14_1Knockdowns_Games", 
+        "Previous14_2Knockdowns_Games", 
+        "Previous14_3Knockdowns_Games", 
+        "Previous30_Total_Games", 
+        "Previous30_Time_Played", 
+        "Season", 
+        "Gametype", 
+        "Map", 
+        "Landing_Site", 
+        "Death_Site", 
+        "Hot_Zone_Binary", 
+        "Hot_Zone", 
+        "Jumpmaster_Legend", 
+        "Jumpmaster", 
+        "Legend_Selected",
+        "Legend_Class", 
+        "Legend_Season", 
+        "Legend_New", 
+        "Legend_OG",  
+        "Legend_CoverGen", 
+        "Legend_DamageDeal", 
+        "Legend_Fortify", 
+        "Legend_Revive", 
+        "Legend_Scan", 
+        "Legend_Movement", 
+        "Legend_TeamMovement", 
+        "Legend_Selected_Favourite", 
+        "Legend_Selection_Number", 
+        "Second_Legend_Selected", 
+        "Second_Legend_Class", 
+        "Second_Legend_Season", 
+        "Second_Legend_New", 
+        "Second_Legend_OG", 
+        "Second_Legend_CoverGen", 
+        "Second_Legend_DamageDeal", 
+        "Second_Legend_Fortify", 
+        "Second_Legend_Revive", 
+        "Second_Legend_Scan", 
+        "Second_Legend_Movement", 
+        "Second_Legend_TeamMovement", 
+        "Third_Legend_Selected", 
+        "Third_Legend_Class", 
+        "Third_Legend_Season", 
+        "Third_Legend_New", 
+        "Third_Legend_OG", 
+        "Third_Legend_CoverGen", 
+        "Third_Legend_DamageDeal", 
+        "Third_Legend_Fortify", 
+        "Third_Legend_Revive", 
+        "Third_Legend_Scan", 
+        "Third_Legend_Movement", 
+        "Third_Legend_TeamMovement", 
+        "Squad_New_Legend", 
+        "Squad_OG_Legend", 
+        "Squad_CoverGen", 
+        "Squad_DamageDeal", 
+        "Squad_Fortify", 
+        "Squad_Revive", 
+        "Squad_Scan"
+    ]
+
 #Within 5 Games
 #Within 30 Days
 #Within Same Session
 
 ##def BuildRankBroadDictionary(rankName, rankBaseline) :
 
-apexData = ReadApexData("ApexLegendsData.csv", 4000)
+apexData = ReadApexData("ApexLegendsData.csv", 1000)
 print(" ")
-print(apexData[3999])
+print(apexData[999])
+WriteCleanApexData("CleanApexLegendsData", apexData)
+
 
 """
 apexCsv = open(fileName, "r", encoding="utf-8-sig")
