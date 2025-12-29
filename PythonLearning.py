@@ -634,7 +634,7 @@ apexCsv.close()
 print("You can read Csvs aswell easily using built in packages.")
 print(" ")
 
-def ReadApexData(fileName, numberRecs): 
+def ReadApexData(fileName, numberRecs = None): 
     apexCsv = open(fileName, "r", encoding="utf-8-sig")
     reader = csv.reader(apexCsv)
     apexData = []
@@ -661,7 +661,7 @@ def ReadApexData(fileName, numberRecs):
     except Exception as e:
         print(f"There was an error retrieving the data: {e}")
            
-    print(f"Sucessfully retrieved {rowCount} records from the Apex Dataset")
+    print(f"Successfully retrieved {rowCount} records from the Apex Dataset")
     apexCsv.close()
     cleanApexData = []
    
@@ -2430,6 +2430,8 @@ def TransformApexData(apexGames) :
         fullGameData.append(secondaryWeaponAmmo) #220
         fullGameData.append(secondaryWeaponType) #221
 
+        #print(f"Game Number: {curGameNumber}")
+
         rollingGames.append(fullGameData)
         cleanApexGames.append(fullGameData)
 
@@ -2801,9 +2803,19 @@ def GetCleanApexHeaders() :
 
 ##def BuildRankBroadDictionary(rankName, rankBaseline) :
 
-apexData = ReadApexData("ApexLegendsData.csv", 5000)
 print(" ")
-print(apexData[999])
+print("-------")
+print("BEGINNING FINAL APEX LEGENDS PROJECT")
+print("-------")
+print(" ")
+now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+print(f"Preparing a clean Apex Legends dataset for analysis at: {now}.")
+apexData = ReadApexData("ApexLegendsData.csv", 200)
+print(" ")
+try :
+    print(f"Printing record 1000 of the data: {apexData[999]}.")
+except:
+    print("The row does not exist.")
 WriteCleanApexData("CleanApexLegendsData", apexData)
 print(" ")
 print("Process finished.")
